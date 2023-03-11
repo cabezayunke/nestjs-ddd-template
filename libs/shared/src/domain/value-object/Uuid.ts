@@ -1,7 +1,7 @@
 import { v4 } from 'uuid';
 import uuidValidate from 'uuid-validate';
 import { InvalidArgumentError } from '../errors/InvalidArgumentError';
-import { StringValueObject } from './StringValueObject';
+import { StringValueObject } from './primitives/StringValueObject';
 
 export class Uuid extends StringValueObject {
   protected constructor(value: string) {

@@ -1,4 +1,7 @@
-import { StringValueObject } from './StringValueObject';
+import { InvalidArgumentError } from '../errors/InvalidArgumentError';
+import { StringValueObject } from './primitives/StringValueObject';
+
+const emailRegex = new RegExp(/^((?!\.)[\w_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/, 'gm');
 
 export class Email extends StringValueObject {
   protected constructor(value: string) {
@@ -6,12 +9,11 @@ export class Email extends StringValueObject {
   }
 
   static of(value: string): Email {
-    // TODO: email validation
-    // if (!validEmail) {
-    //   throw new InvalidArgumentError(
-    //     `<${this.constructor.name}> does not allow the value <${value}>`
-    //   );
-    // }
+    if (!emailRegex.test(value)) {
+      throw new InvalidArgumentError(
+        `<${this.constructor.name}> does not allow the value <${value}>`,
+      );
+    }
     return new Email(value);
   }
 }

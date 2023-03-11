@@ -1,4 +1,4 @@
-import { InvalidArgumentError } from '../errors/InvalidArgumentError';
+import { InvalidArgumentError } from '../../errors/InvalidArgumentError';
 import { ValueObject } from './ValueObject';
 
 export abstract class EnumValueObject<T> extends ValueObject<T> {
