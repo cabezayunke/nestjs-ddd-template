@@ -1,5 +1,5 @@
-import HttpStatus from 'http-status-codes';
-import { DomainError } from 'shared/domain/errors/DomainError';
+import { HttpStatus } from "@nestjs/common";
+import { DomainError } from "../../domain/errors/DomainError";
 
 export class ApiError extends Error {
   public statusCode: number;

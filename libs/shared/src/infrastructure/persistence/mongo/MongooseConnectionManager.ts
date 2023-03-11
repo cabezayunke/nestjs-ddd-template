@@ -1,29 +1,13 @@
 import mongoose, { Mongoose } from "mongoose";
-import { ConnectionManager } from "../../domain/data/ConnectionManager";
-import { Logger } from "../../domain/Logger";
+import { ConnectionManager } from "../../../domain/data/ConnectionManager";
+import { Logger } from "../../../domain/Logger";
+import { MongoParams, MongoUri } from "./MongoConfig";
 
-interface MongoDebugConfig {
-    debug?: boolean;
-    host?: string;
-    port?: string;
-    database?: string;
-    uri?: string;
-}
-export interface MongoUri extends MongoDebugConfig{
-    uri: string;
-}
-export interface MongoParams extends MongoDebugConfig{
-    host: string;
-    port: string;
-    database: string;
-    user: string;
-    password: string;
-}
-export class MongoConnectionManager implements ConnectionManager {
+
+export class MongooseConnectionManager implements ConnectionManager {
 
     private connection: Mongoose;
 
-    // TODO: add proper logging
     constructor(private readonly config: MongoUri | MongoParams, private readonly logger: Logger) {}
 
     async connect(): Promise<void> {
@@ -33,13 +17,11 @@ export class MongoConnectionManager implements ConnectionManager {
         mongoose.set('debug', this.config.debug);
 
         db.on("connecting", () => {
-            this.logger.info(
-                `connecting to mongodb://${this.config.host}:${this.config.port}/${this.config.database}`,
-                tags,
-            );
+            const uri = "uri" in this.config ? this.config.uri : `mongodb://${this.config?.host}:${this.config.port}/${this.config.database}`;
+            this.logger.info(`connecting to ${uri}`, tags);
         });
-        db.on("error", error => {
-            this.logger.error(`Error in MongoDb connection: ${  error.toString()}`, { ...tags, error });
+        db.on("error", (error: Error) => {
+            this.logger.error(`Error in MongoDb connection: ${error.toString()}`, { ...tags, error });
         });
         db.on("connected", () => {
             this.logger.info("MongoDB connected!", tags);
@@ -54,7 +36,7 @@ export class MongoConnectionManager implements ConnectionManager {
             this.logger.info("MongoDB disconnected!", tags);
         });
 
-        this.connection = this.config.uri
+        this.connection = "uri" in this.config
             ? await mongoose.connect(this.config.uri, { autoIndex: true })
             : await mongoose.connect(
                 `mongodb://${this.config.host}:${this.config.port}/${this.config.database}?authMechanism=DEFAULT`,

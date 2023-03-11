@@ -1,34 +1,21 @@
+import { Injectable } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import { DomainEvent } from '../../domain/events/DomainEvent';
-import { DomainEventMapping } from '../../domain/events/DomainEventMapping';
-import { DomainEventSubscriber } from '../../domain/events/DomainEventSubscriber';
 import { EventBus } from '../../domain/events/EventBus';
 import { Logger } from '../../domain/Logger';
-import { EventEmitterBus } from '../EventEmitterBus';
 
+@Injectable()
 export class InMemoryAsyncEventBus implements EventBus {
-  private bus: EventEmitterBus;
 
   constructor(
-    subscribers: Array<DomainEventSubscriber<DomainEvent>>,
+    private readonly eventEmitter: EventEmitter2,
     private readonly logger: Logger
   ) {
-    this.bus = new EventEmitterBus(subscribers);
-  }
-
-  async start(): Promise<void> {
-    this.logger.debug('[InMemoryAsyncEventBus] Empty start()');
+    this.logger.debug('[InMemoryAsyncEventBus] initialised');
   }
 
   async publish(events: DomainEvent[]): Promise<void> {
-    this.bus.publish(events);
+    events.forEach(e => this.eventEmitter.emit(e.eventName, e));
   }
 
-  addSubscribers(subscribers: Array<DomainEventSubscriber<DomainEvent>>): void {
-    this.bus.registerSubscribers(subscribers);
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  setDomainEventMapping(_domainEventMapping: DomainEventMapping): void {
-    this.logger.debug('[InMemoryAsyncEventBus] Empty setDomainEventMapping()');
-  }
 }
