@@ -1,10 +1,10 @@
-module.exports = {
+export default {
   preset: 'ts-jest',
   globals: {
     'ts-jest': {
       diagnostics: false,
       isolatedModules: true,
-      tsConfigFile: 'tsconfig.json'
+      tsConfigFile: './tsconfig.jest.json'
     }
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'json'],

@@ -13,7 +13,7 @@ export abstract class DomainEvent {
     occurredOn?: Date,
   ) {
     this.aggregateId = aggregateId;
-    this.eventId = eventId || Uuid.random().value();
+    this.eventId = eventId || Uuid.random().value;
     this.occurredOn = occurredOn || new Date();
     this.eventName = eventName;
   }

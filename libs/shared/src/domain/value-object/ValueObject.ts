@@ -5,12 +5,12 @@ export abstract class ValueObject<T> {
     this._value = value;
   }
 
-  value(): T {
+  get value(): T {
     return this._value;
   }
 
   equals(o: ValueObject<T>): boolean {
-    return this.value() === o.value();
+    return this.value === o.value;
   }
 
   toString(): string | undefined {
