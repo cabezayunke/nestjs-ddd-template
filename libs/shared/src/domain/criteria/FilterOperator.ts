@@ -7,7 +7,7 @@ export enum Operator {
   GT = '>',
   LT = '<',
   CONTAINS = 'CONTAINS',
-  NOT_CONTAINS = 'NOT_CONTAINS'
+  NOT_CONTAINS = 'NOT_CONTAINS',
 }
 
 export class FilterOperator extends EnumValueObject<Operator> {

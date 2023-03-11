@@ -19,7 +19,7 @@ import { WinstonLogger } from './infrastructure/logger/WinstonLogger';
       verboseMemoryLeak: false,
       // disable throwing uncaughtException if an error event is emitted and it has no listeners
       ignoreErrors: false,
-    })
+    }),
   ],
   providers: [WinstonLogger],
   exports: [WinstonLogger],

@@ -6,7 +6,7 @@ enum Levels {
   DEBUG = 'debug',
   ERROR = 'error',
   WARN = 'warn',
-  INFO = 'info'
+  INFO = 'info',
 }
 
 @Injectable()
@@ -20,15 +20,15 @@ export class WinstonLogger implements Logger {
         format.errors({ stack: true }),
         format.splat(),
         format.colorize(),
-        format.simple()
+        format.simple(),
       ),
       transports: [
         new transports.Console(),
         new transports.File({
           filename: `logs/${Levels.ERROR}.log`,
-          level: Levels.ERROR
+          level: Levels.ERROR,
         }),
-      ]
+      ],
     });
   }
 

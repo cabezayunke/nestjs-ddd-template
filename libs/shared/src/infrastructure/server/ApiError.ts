@@ -1,5 +1,5 @@
-import { HttpStatus } from "@nestjs/common";
-import { DomainError } from "../../domain/errors/DomainError";
+import { HttpStatus } from '@nestjs/common';
+import { DomainError } from '../../domain/errors/DomainError';
 
 export class ApiError extends Error {
   public statusCode: number;
@@ -9,7 +9,7 @@ export class ApiError extends Error {
   constructor(
     message: string,
     statusCode = HttpStatus.BAD_REQUEST,
-    extra?: Record<string, unknown>
+    extra?: Record<string, unknown>,
   ) {
     super(message);
     this.statusCode = statusCode;

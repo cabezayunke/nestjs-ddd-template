@@ -28,7 +28,7 @@ export class Filter {
     return new Filter(
       new FilterField(field),
       FilterOperator.fromValue(operator),
-      new FilterValue(value)
+      new FilterValue(value),
     );
   }
 }

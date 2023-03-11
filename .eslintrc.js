@@ -1,21 +1,32 @@
 module.exports = {
   parser: '@typescript-eslint/parser',
   parserOptions: {
-    project: 'tsconfig.json',
+    project: ['./tsconfig.eslint.json', './apps/*/tsconfig.app.json', './libs/*/tsconfig.lib.json'],
     tsconfigRootDir: __dirname,
     sourceType: 'module',
   },
   plugins: ['@typescript-eslint/eslint-plugin'],
   settings: {
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts"]
+    },
+    "import/internal-regex": "^@",
     "import/resolver": {
-      "typescript": true,
-      "node": true
+      "eslint-import-resolver-custom-alias": {
+        "alias": {
+            "@shared": "./libs/shared/src",
+            "@context/users": "./libs/users/src",
+            "@cli": "./apps/cli/src",
+            "@core-api": "./apps/core-api/src",
+        },
+        "extensions": [".ts"],
+    }
     }
   },
   extends: [
     'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
-    'plugin:import/recommended',
+    'plugin:import/typescript',
   ],
   root: true,
   env: {

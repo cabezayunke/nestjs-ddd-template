@@ -6,7 +6,7 @@ export abstract class EnumValueObject<T> extends ValueObject<T> {
     super(value);
     if (!validValues.includes(value)) {
       throw new InvalidArgumentError(
-        `<${this.constructor.name}> does not allow the value <${value}>`
+        `<${this.constructor.name}> does not allow the value <${value}>`,
       );
     }
   }

@@ -18,7 +18,7 @@ export class Order {
 
     return new Order(
       new OrderBy(orderBy),
-      OrderType.fromValue(orderType || OrderTypes.ASC)
+      OrderType.fromValue(orderType || OrderTypes.ASC),
     );
   }
 

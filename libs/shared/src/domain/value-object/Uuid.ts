@@ -11,7 +11,7 @@ export class Uuid extends StringValueObject {
   static of(value: string): Uuid {
     if (!uuidValidate(value, 4)) {
       throw new InvalidArgumentError(
-        `<${this.constructor.name}> does not allow the value <${value}>`
+        `<${this.constructor.name}> does not allow the value <${value}>`,
       );
     }
     return new Uuid(value);

@@ -9,7 +9,7 @@
     "esModuleInterop": true,
     "target": "es2021",
     "outDir": "./dist",
-    "baseUrl": "./src",
+    "baseUrl": "./",
     "typeRoots": [
       "./node_modules/@types"
     ],
@@ -33,7 +33,7 @@
     "allowJs": true,
     "paths": {
       "@shared": [
-        "libs/src"
+        "libs/shared/src"
       ],
       "@shared/*": [
         "libs/shared/src/*"

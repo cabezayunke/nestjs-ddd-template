@@ -6,10 +6,9 @@ import { Logger } from '../../domain/Logger';
 
 @Injectable()
 export class InMemoryAsyncEventBus implements EventBus {
-
   constructor(
     private readonly eventEmitter: EventEmitter2,
-    private readonly logger: Logger
+    private readonly logger: Logger,
   ) {
     this.logger.debug('[InMemoryAsyncEventBus] initialised');
   }
@@ -17,5 +16,4 @@ export class InMemoryAsyncEventBus implements EventBus {
   async publish(events: DomainEvent[]): Promise<void> {
     events.forEach(e => this.eventEmitter.emit(e.eventName, e));
   }
-
 }
