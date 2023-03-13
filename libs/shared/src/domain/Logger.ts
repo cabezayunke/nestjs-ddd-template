@@ -1,6 +1,6 @@
-export interface Logger {
-  debug(message: string, extra?: unknown): void;
-  info(message: string, extra?: unknown): void;
-  warn(message: string, extra?: unknown): void;
-  error(message: string | Error, extra?: unknown): void;
+export abstract class Logger {
+  abstract debug(message: string, extra?: unknown): void;
+  abstract info(message: string, extra?: unknown): void;
+  abstract warn(message: string, extra?: unknown): void;
+  abstract error(message: string | Error, extra?: unknown): void;
 }

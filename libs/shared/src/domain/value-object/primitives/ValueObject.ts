@@ -14,9 +14,6 @@ export abstract class ValueObject<T> {
   }
 
   toString(): string | undefined {
-    if (this._value !== undefined && this._value !== null) {
-      return this._value.toString();
-    }
-    return undefined;
+    return this._value?.toString();
   }
 }

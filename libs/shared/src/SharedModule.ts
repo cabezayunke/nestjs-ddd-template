@@ -1,5 +1,8 @@
 import { Module } from '@nestjs/common';
 import { EventEmitterModule } from '@nestjs/event-emitter';
+import { EventBus } from './domain/events/EventBus';
+import { Logger } from './domain/Logger';
+import { InMemoryAsyncEventBus } from './infrastructure/events/InMemoryAsyncEventBus';
 import { WinstonLogger } from './infrastructure/logger/WinstonLogger';
 
 @Module({
@@ -21,7 +24,12 @@ import { WinstonLogger } from './infrastructure/logger/WinstonLogger';
       ignoreErrors: false,
     }),
   ],
-  providers: [WinstonLogger],
-  exports: [WinstonLogger],
+  providers: [
+    { provide: EventBus, useClass: InMemoryAsyncEventBus },
+    InMemoryAsyncEventBus,
+    { provide: Logger, useClass: WinstonLogger },
+    WinstonLogger,
+  ],
+  exports: [Logger, WinstonLogger, EventBus, InMemoryAsyncEventBus],
 })
 export class SharedModule {}
