@@ -7,21 +7,18 @@ import { Injectable } from '@nestjs/common';
 export class InMemoryUserRepository implements UserRepository {
   private users: Record<string, User> = {};
 
-  setInitialData(initialData: User[]): void {
-    this.users = initialData.reduce((acc: Record<string, User>, u: User) => {
-      return {
-        ...acc,
-        [u.id.value]: u,
-      };
-    }, {});
-  }
-
   async find(data: Record<string, unknown>): Promise<User[]> {
     if (data.id) {
       const user = this.users[data?.id as string];
       if (user) {
         return [user];
       }
+    }
+
+    if (data.email) {
+      return Object.values(this.users).filter(
+        u => u.email.value.toLowerCase() === (data.email as string).toLowerCase(),
+      );
     }
 
     return [];

@@ -1,7 +1,9 @@
 import { InvalidArgumentError } from '../errors/InvalidArgumentError';
 import { StringValueObject } from './primitives/StringValueObject';
 
-const emailRegex = new RegExp(/^((?!\.)[\w_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/, 'gm');
+const emailRegex =
+  // eslint-disable-next-line max-len
+  /^[-!#$%&'*+\/0-9=?A-Z^_a-z`{|}~](\.?[-!#$%&'*+\/0-9=?A-Z^_a-z`{|}~])*@[a-zA-Z0-9](-*\.?[a-zA-Z0-9])*\.[a-zA-Z](-?[a-zA-Z0-9])+$/;
 
 export class Email extends StringValueObject {
   protected constructor(value: string) {
@@ -9,11 +11,12 @@ export class Email extends StringValueObject {
   }
 
   static of(value: string): Email {
-    if (!emailRegex.test(value)) {
+    const email = value?.trim().toLowerCase();
+    if (!emailRegex.test(email)) {
       throw new InvalidArgumentError(
-        `<${this.constructor.name}> does not allow the value <${value}>`,
+        `<${this.name}> does not allow the value <${value}>`,
       );
     }
-    return new Email(value);
+    return new Email(email);
   }
 }
