@@ -1,5 +1,5 @@
 import { User } from '@context/users/domain/User';
-import { CreateUserInput } from '@context/users/infrastructure/controllers/UserController';
+import { CreateUserInput } from '@context/users/infrastructure/controllers/input/CreateUserInput';
 import { RandomObjectMother } from '../../shared/test/RandomObjectMother';
 
 export class UserObjectMother {

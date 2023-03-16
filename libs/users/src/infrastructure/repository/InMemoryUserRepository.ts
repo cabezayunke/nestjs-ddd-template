@@ -7,6 +7,10 @@ import { Injectable } from '@nestjs/common';
 export class InMemoryUserRepository implements UserRepository {
   private users: Record<string, User> = {};
 
+  constructor(initialData?: Record<string, User>) {
+    this.users = { ...initialData };
+  }
+
   async find(data: Record<string, unknown>): Promise<User[]> {
     if (data.id) {
       const user = this.users[data?.id as string];

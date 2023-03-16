@@ -4,10 +4,10 @@ import { UserRepository } from './UserRepository';
 import { UserId } from './value-object/UserId';
 
 export class UserFinder {
-  constructor(private readonly userRepository: UserRepository) {}
+  constructor(private readonly UserRepository: UserRepository) {}
 
   async find(userId: UserId): Promise<User> {
-    const found = await this.userRepository.find({ id: userId.value });
+    const found = await this.UserRepository.find({ id: userId.value });
 
     const isArrayResult = Array.isArray(found);
     if (!found || (isArrayResult && !found.length)) {

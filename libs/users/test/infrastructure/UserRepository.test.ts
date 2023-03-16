@@ -4,14 +4,16 @@ import { InMemoryUserRepository } from '@context/users/infrastructure/repository
 import { RandomObjectMother } from '../../../shared/test/RandomObjectMother';
 import { UserObjectMother } from '../UserObjectMother';
 
-export const runUserRepositoryTests = (repository: UserRepository): void => {
+export const runUserRepositoryTests = (
+  UserRepository: new (data?: Record<string, unknown>) => UserRepository,
+): void => {
   describe('Get users', () => {
     test.each([{ id: RandomObjectMother.uuid() }, { email: RandomObjectMother.email() }])(
       'should retrieve existnig user by %s',
       async data => {
         // arrange
         const user = UserObjectMother.fullUser(data) as User;
-        await repository.save(user);
+        const repository = new UserRepository({ [user.id.value]: user });
 
         // act
         const result = await repository.find(data);
@@ -28,6 +30,7 @@ export const runUserRepositoryTests = (repository: UserRepository): void => {
       { email: RandomObjectMother.email() },
     ])('should return empty array if user not found', async data => {
       // arrange
+      const repository = new UserRepository();
 
       // act
       const result = await repository.find(data);
@@ -39,5 +42,5 @@ export const runUserRepositoryTests = (repository: UserRepository): void => {
 };
 
 describe('InMemoryUserRepositoryTest', () => {
-  runUserRepositoryTests(new InMemoryUserRepository());
+  runUserRepositoryTests(InMemoryUserRepository);
 });

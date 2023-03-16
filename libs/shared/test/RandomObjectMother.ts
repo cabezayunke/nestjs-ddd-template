@@ -18,6 +18,6 @@ export class RandomObjectMother {
   }
 
   static email(): string {
-    return faker.internet.email();
+    return faker.internet.email().toLowerCase();
   }
 }
