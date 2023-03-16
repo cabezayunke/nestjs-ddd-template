@@ -2,22 +2,9 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "declaration": false,
+    "declarationMap": false,
     "outDir": "../../dist/apps/core-api",
-    "paths": {
-      "@shared": [
-        "../../libs/shared/src"
-      ],
-      "@shared/*": [
-        "../../libs/shared/src/*"
-      ],
-      "@context/users": [
-        "../../libs/users/src"
-      ],
-      "@context/users/*": [
-        "../../libs/users/src/*"
-      ]
-    },  
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "src/*"],
   "exclude": ["node_modules", "dist", "test", "**/*spec.ts", "**/*test.ts"]
 }
