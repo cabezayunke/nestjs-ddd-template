@@ -1,19 +1,28 @@
+import { UserAlreadyExists } from './error/UserAlreadyExists';
 import { UserNotFound } from './error/UserNotFound';
 import { User } from './User';
 import { UserRepository } from './UserRepository';
+import { UserEmail } from './value-object/UserEmail';
 import { UserId } from './value-object/UserId';
 
 export class UserFinder {
-  constructor(private readonly UserRepository: UserRepository) {}
+  constructor(private readonly repository: UserRepository) {}
 
-  async find(userId: UserId): Promise<User> {
-    const found = await this.UserRepository.find({ id: userId.value });
+  async findOrThrowById(userId: UserId): Promise<User> {
+    const found = await this.repository.find({ id: userId.value });
 
-    const isArrayResult = Array.isArray(found);
-    if (!found || (isArrayResult && !found.length)) {
+    if (!found?.length) {
       throw new UserNotFound();
     }
 
-    return (isArrayResult ? found[0] : found) as User;
+    return found[0] as User;
+  }
+
+  async findAndThrowByEmail(email: UserEmail): Promise<void> {
+    const found = await this.repository.find({ email });
+
+    if (found?.length) {
+      throw new UserAlreadyExists();
+    }
   }
 }
