@@ -2,15 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { createLogger, format, Logger as WinstonLoggerType, transports } from 'winston';
 import { Logger } from '../../domain/Logger';
 
-enum Levels {
-  DEBUG = 'debug',
-  ERROR = 'error',
-  WARN = 'warn',
-  INFO = 'info',
-}
-
 @Injectable()
-export class WinstonLogger implements Logger {
+export class PrettyWinstonLogger implements Logger {
   private logger: WinstonLoggerType;
 
   constructor() {
@@ -24,28 +17,47 @@ export class WinstonLogger implements Logger {
       ),
       transports: [
         new transports.Console(),
-        new transports.File({
-          filename: `logs/${Levels.ERROR}.log`,
-          level: Levels.ERROR,
-        }),
+        // no files for now
+        // new transports.File({
+        //   filename: `logs/${Levels.ERROR}.log`,
+        //   level: Levels.ERROR,
+        // }),
       ],
     });
   }
 
   warn(message: string, extra?: unknown): void {
     this.logger.warn(message, extra);
+    if (extra) {
+      this.logger.warn(extra);
+    }
   }
 
   debug(message: string, extra?: unknown): void {
     this.logger.debug(message, extra);
+    if (extra) {
+      this.logger.debug(extra);
+    }
   }
 
   error(message: string | Error, extra?: unknown): void {
     this.logger.error(message);
-    this.logger.error(extra);
+    if (extra) {
+      this.logger.error(extra);
+    }
   }
 
   info(message: string, extra?: unknown): void {
-    this.logger.info(message, extra);
+    this.logger.info(message);
+    if (extra) {
+      this.logger.info(extra);
+    }
+  }
+
+  log(message: string, extra?: unknown): void {
+    this.logger.info(message);
+    if (extra) {
+      this.logger.info(extra);
+    }
   }
 }

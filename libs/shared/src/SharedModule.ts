@@ -1,9 +1,11 @@
 import { Module } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { EventBus } from './domain/events/EventBus';
 import { Logger } from './domain/Logger';
 import { InMemoryAsyncEventBus } from './infrastructure/events/InMemoryAsyncEventBus';
-import { WinstonLogger } from './infrastructure/logger/WinstonLogger';
+import { JsonWinstonLogger } from './infrastructure/logger/JsonWinstonLogger';
+import { PrettyWinstonLogger } from './infrastructure/logger/PrettyWinstonLogger';
 
 @Module({
   imports: [
@@ -27,9 +29,25 @@ import { WinstonLogger } from './infrastructure/logger/WinstonLogger';
   providers: [
     { provide: EventBus, useClass: InMemoryAsyncEventBus },
     InMemoryAsyncEventBus,
-    { provide: Logger, useClass: WinstonLogger },
-    WinstonLogger,
+    {
+      provide: Logger,
+      useFactory: (configService: ConfigService) => {
+        if (configService.get('isLocal')) {
+          return new PrettyWinstonLogger();
+        }
+        return new JsonWinstonLogger();
+      },
+      inject: [ConfigService],
+    },
+    PrettyWinstonLogger,
+    JsonWinstonLogger,
   ],
-  exports: [Logger, WinstonLogger, EventBus, InMemoryAsyncEventBus],
+  exports: [
+    Logger,
+    PrettyWinstonLogger,
+    JsonWinstonLogger,
+    EventBus,
+    InMemoryAsyncEventBus,
+  ],
 })
 export class SharedModule {}
