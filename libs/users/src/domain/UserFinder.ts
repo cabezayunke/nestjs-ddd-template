@@ -19,7 +19,7 @@ export class UserFinder {
   }
 
   async findAndThrowByEmail(email: UserEmail): Promise<void> {
-    const found = await this.repository.find({ email });
+    const found = await this.repository.find({ email: email.value });
 
     if (found?.length) {
       throw new UserAlreadyExists();
