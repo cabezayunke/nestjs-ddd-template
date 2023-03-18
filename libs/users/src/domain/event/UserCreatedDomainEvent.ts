@@ -1,6 +1,7 @@
-import { DomainEvent, DomainEventData } from '@shared/domain/events/DomainEvent';
+import { DomainEvent } from '@shared/domain/events/DomainEvent';
 
-export interface UserCreatedDomainEventData extends DomainEventData {
+export interface UserCreatedDomainEventData {
+  userId: string;
   userEmail: string;
 }
 
@@ -8,8 +9,12 @@ export class UserCreatedDomainEvent extends DomainEvent {
   public readonly userEmail: string;
 
   constructor(data: UserCreatedDomainEventData) {
-    const { id, eventId, occurredOn, userEmail } = data;
-    super(UserCreatedDomainEvent.name, id, eventId, occurredOn);
+    const { userId, userEmail } = data;
+    super({
+      eventName: UserCreatedDomainEvent.name,
+      aggregateId: userId,
+      requestId: 'fill_me_in',
+    });
     this.userEmail = userEmail;
   }
 }

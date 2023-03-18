@@ -40,7 +40,7 @@ export class User extends AggregateRoot {
     );
 
     user.apply(
-      new UserCreatedDomainEvent({ id: user.id.value, userEmail: user.email.value }),
+      new UserCreatedDomainEvent({ userId: user.id.value, userEmail: user.email.value }),
     );
 
     return user;
