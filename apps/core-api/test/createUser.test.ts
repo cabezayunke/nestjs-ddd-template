@@ -1,7 +1,7 @@
 import { UserRepository } from '@context/users/domain/UserRepository';
 import { InMemoryUserRepository } from '@context/users/infrastructure/repository/InMemoryUserRepository';
 import { INestApplication, Logger } from '@nestjs/common';
-import { WinstonLogger } from '@shared/infrastructure/logger/WinstonLogger';
+import { PrettyWinstonLogger } from '@shared/infrastructure/logger/PrettyWinstonLogger';
 import request from 'supertest';
 import { createTestApp } from '../../../libs/shared/test/e2eSetup';
 import { UserObjectMother } from '../../../libs/users/test/UserObjectMother';
@@ -13,7 +13,7 @@ describe('Create user (e2e)', () => {
   beforeEach(async () => {
     app = await createTestApp(CoreApiModule, [
       { provide: UserRepository, useFactory: () => new InMemoryUserRepository() },
-      { provide: Logger, useClass: WinstonLogger },
+      { provide: Logger, useClass: PrettyWinstonLogger },
     ]);
   });
 
