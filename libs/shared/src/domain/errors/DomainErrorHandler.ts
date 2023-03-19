@@ -4,11 +4,15 @@ import { Request, Response } from 'express';
 
 @Catch()
 export class DomainErrorHandler implements ExceptionFilter {
-  catch(exception: Error, host: ArgumentsHost): void {
+  catch(exception: Error | DomainError, host: ArgumentsHost): void {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<Request>();
-    const errorName = exception.name.toLowerCase();
+    /**
+     * exception.constructor.name = concrete implementation (ie: UserNotFound)
+     * exception.name = Error
+     */
+    const errorName = exception.constructor.name.toLowerCase();
 
     let status = 500;
     let event = 'n/a';
@@ -20,7 +24,7 @@ export class DomainErrorHandler implements ExceptionFilter {
       if (errorName.includes('notfound')) {
         status = 404;
       }
-      if (errorName.includes('alradyexists') || errorName.includes('conflict')) {
+      if (errorName.includes('alreadyexists') || errorName.includes('conflict')) {
         status = 409;
       }
     }

@@ -33,6 +33,7 @@
     "class-validator-jsonschema": "^5.0.0",
     "eslint-import-resolver-custom-alias": "^1.3.0",
     "mongoose": "^7.0.1",
+    "nestjs-request-context": "^2.1.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.2.0",
     "uuid": "^9.0.0",

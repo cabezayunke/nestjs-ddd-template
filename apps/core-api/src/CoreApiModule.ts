@@ -1,6 +1,7 @@
 import { UsersModule } from '@context/users/UsersModule';
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { RequestContextMiddleware } from '@shared/infrastructure/server/RequestContextMiddleware';
 import { SharedModule } from '@shared/SharedModule';
 import { loadCoreApiConfig } from './config';
 
@@ -15,4 +16,8 @@ import { loadCoreApiConfig } from './config';
     SharedModule,
   ],
 })
-export class CoreApiModule {}
+export class CoreApiModule {
+  configure(consumer: MiddlewareConsumer): any {
+    consumer.apply(RequestContextMiddleware).forRoutes('*');
+  }
+}

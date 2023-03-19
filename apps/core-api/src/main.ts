@@ -50,6 +50,9 @@ async function bootstrap(): Promise<void> {
   // errors
   app.useGlobalFilters(new DomainErrorHandler());
 
+  // request context
+  // app.use(RequestContextMiddleware);
+
   // server
   await app.listen(configService.get<number>('serverPort') as number);
   logger.info('Starting server', configService.get('serverPort'));

@@ -1,14 +1,17 @@
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { EventEmitterModule } from '@nestjs/event-emitter';
+import { RequestContextModule } from 'nestjs-request-context';
 import { DomainEventPublisher } from './domain/events/DomainEventPublisher';
 import { Logger } from './domain/Logger';
 import { InMemoryAsyncDomainEventPublisher } from './infrastructure/events/InMemoryAsyncDomainEventPublisher';
 import { JsonWinstonLogger } from './infrastructure/logger/JsonWinstonLogger';
 import { PrettyWinstonLogger } from './infrastructure/logger/PrettyWinstonLogger';
+import { RequestContextMiddleware } from './infrastructure/server/RequestContextMiddleware';
 
 @Module({
   imports: [
+    RequestContextModule,
     EventEmitterModule.forRoot({
       // set this to `true` to use wildcards
       wildcard: false,
@@ -41,6 +44,7 @@ import { PrettyWinstonLogger } from './infrastructure/logger/PrettyWinstonLogger
     },
     PrettyWinstonLogger,
     JsonWinstonLogger,
+    RequestContextMiddleware,
   ],
   exports: [
     Logger,
@@ -48,6 +52,7 @@ import { PrettyWinstonLogger } from './infrastructure/logger/PrettyWinstonLogger
     JsonWinstonLogger,
     DomainEventPublisher,
     InMemoryAsyncDomainEventPublisher,
+    RequestContextMiddleware,
   ],
 })
 export class SharedModule {}
