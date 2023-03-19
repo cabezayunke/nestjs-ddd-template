@@ -6,6 +6,7 @@ import { SchemaObject } from '@nestjs/swagger/dist/interfaces/open-api-spec.inte
 import { Logger } from '@shared/domain/Logger';
 import { getFromContainer, MetadataStorage } from 'class-validator';
 import { validationMetadatasToSchemas } from 'class-validator-jsonschema';
+import { DomainErrorHandler } from '../../../libs/shared/src/domain/errors/DomainErrorHandler';
 import { CoreApiModule } from './CoreApiModule';
 
 async function bootstrap(): Promise<void> {
@@ -45,6 +46,9 @@ async function bootstrap(): Promise<void> {
 
   // validation
   app.useGlobalPipes(new ValidationPipe());
+
+  // errors
+  app.useGlobalFilters(new DomainErrorHandler());
 
   // server
   await app.listen(configService.get<number>('serverPort') as number);
