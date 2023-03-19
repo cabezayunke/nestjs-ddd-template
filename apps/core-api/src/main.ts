@@ -1,8 +1,11 @@
-import { LoggerService } from '@nestjs/common';
+import { LoggerService, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { SchemaObject } from '@nestjs/swagger/dist/interfaces/open-api-spec.interface';
 import { Logger } from '@shared/domain/Logger';
+import { getFromContainer, MetadataStorage } from 'class-validator';
+import { validationMetadatasToSchemas } from 'class-validator-jsonschema';
 import { CoreApiModule } from './CoreApiModule';
 
 async function bootstrap(): Promise<void> {
@@ -22,9 +25,26 @@ async function bootstrap(): Promise<void> {
       .addTag('core')
       .build();
 
-    const document = SwaggerModule.createDocument(app, config);
+    let document = SwaggerModule.createDocument(app, config);
+
+    // Creating all the swagger schemas based on the class-validator decorators
+    const metadatas = (getFromContainer(MetadataStorage) as any).validationMetadatas;
+    const schemas = validationMetadatasToSchemas(metadatas);
+    document = {
+      ...document,
+      components: {
+        ...document?.components,
+        schemas: {
+          ...document?.components?.schemas,
+          ...schemas,
+        } as Record<string, SchemaObject>,
+      },
+    };
     SwaggerModule.setup('api/docs', app, document);
   }
+
+  // validation
+  app.useGlobalPipes(new ValidationPipe());
 
   // server
   await app.listen(configService.get<number>('serverPort') as number);

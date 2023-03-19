@@ -1,6 +1,11 @@
 import { Body, Controller, HttpCode, Post } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
-import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiCreatedResponse,
+  ApiForbiddenResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { CreateUserCommand } from '../../application/commands/CreateUserCommand';
 import { CreateUserInput } from './input/CreateUserInput';
 
@@ -12,12 +17,8 @@ export class UserCommandController {
 
   @Post()
   @HttpCode(201)
-  @ApiResponse({
-    status: 201,
-    description: 'User created',
-  })
-  @ApiResponse({
-    status: 403,
+  @ApiCreatedResponse({ description: 'User created' })
+  @ApiForbiddenResponse({
     description: 'Forbidden. Some users may not be able to manage users',
   })
   async createUser(@Body() { email, id, name }: CreateUserInput): Promise<void> {
