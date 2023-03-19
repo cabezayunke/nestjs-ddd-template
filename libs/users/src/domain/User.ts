@@ -43,6 +43,7 @@ export class User extends AggregateRoot {
       new UserCreatedDomainEvent({ userId: user.id.value, userEmail: user.email.value }),
     );
 
+    console.log('User created');
     return user;
   }
 
