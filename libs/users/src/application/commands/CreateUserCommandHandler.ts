@@ -2,7 +2,9 @@ import { User } from '@context/users/domain/User';
 import { UserFinder } from '@context/users/domain/UserFinder';
 import { UserRepository } from '@context/users/domain/UserRepository';
 import { UserEmail } from '@context/users/domain/value-object/UserEmail';
-import { CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
+import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import { DomainEvent } from '@shared/domain/events/DomainEvent';
+import { DomainEventPublisher } from '@shared/domain/events/DomainEventPublisher';
 import { CreateUserCommand } from './CreateUserCommand';
 
 @CommandHandler(CreateUserCommand)
@@ -11,7 +13,7 @@ export class CreateUserCommandHandler implements ICommandHandler<CreateUserComma
 
   constructor(
     private readonly repository: UserRepository,
-    private readonly eventBus: EventBus,
+    private readonly publisher: DomainEventPublisher,
   ) {
     this.userFinder = new UserFinder(repository);
   }
@@ -21,9 +23,8 @@ export class CreateUserCommandHandler implements ICommandHandler<CreateUserComma
 
     const user = User.create(command);
     await this.repository.save(user);
-    console.log('User saved');
-    const events = user.getUncommittedEvents();
-    this.eventBus.publishAll(events);
-    console.log('User events published', events);
+
+    const events = user.getUncommittedEvents() as DomainEvent[];
+    this.publisher.publish(events);
   }
 }

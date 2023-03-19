@@ -1,16 +1,15 @@
 import { UserCreatedDomainEvent } from '@context/users/domain/event/UserCreatedDomainEvent';
 import { Injectable } from '@nestjs/common';
-import { OnEvent } from '@nestjs/event-emitter';
 import { Logger } from '@shared/domain/Logger';
+import { OnEvents } from '@shared/infrastructure/events/OnEventsDecorator';
 
 @Injectable()
-export class UserCounterSubscriber {
+export class UserSingleEventSubscriber {
   constructor(private readonly logger: Logger) {}
 
-  // @OnEvents(['UserCreatedDomainEvent'])
-  @OnEvent('UserCreatedDomainEvent')
-  handleEvent(event: UserCreatedDomainEvent): void {
+  @OnEvents(['UserCreatedDomainEvent'])
+  //@OnEvent('UserCreatedDomainEvent')
+  handleEvents(event: UserCreatedDomainEvent): void {
     this.logger.info('UserCreatedDomainEvent received', event);
-    console.log('UserCreatedDomainEvent received', event);
   }
 }

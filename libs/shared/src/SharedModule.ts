@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { EventEmitterModule } from '@nestjs/event-emitter';
-import { EventBus } from './domain/events/EventBus';
+import { DomainEventPublisher } from './domain/events/DomainEventPublisher';
 import { Logger } from './domain/Logger';
-import { InMemoryAsyncEventBus } from './infrastructure/events/InMemoryAsyncEventBus';
+import { InMemoryAsyncDomainEventPublisher } from './infrastructure/events/InMemoryAsyncDomainEventPublisher';
 import { JsonWinstonLogger } from './infrastructure/logger/JsonWinstonLogger';
 import { PrettyWinstonLogger } from './infrastructure/logger/PrettyWinstonLogger';
 
@@ -27,8 +27,8 @@ import { PrettyWinstonLogger } from './infrastructure/logger/PrettyWinstonLogger
     }),
   ],
   providers: [
-    { provide: EventBus, useClass: InMemoryAsyncEventBus },
-    InMemoryAsyncEventBus,
+    { provide: DomainEventPublisher, useClass: InMemoryAsyncDomainEventPublisher },
+    InMemoryAsyncDomainEventPublisher,
     {
       provide: Logger,
       useFactory: (configService: ConfigService) => {
@@ -46,8 +46,8 @@ import { PrettyWinstonLogger } from './infrastructure/logger/PrettyWinstonLogger
     Logger,
     PrettyWinstonLogger,
     JsonWinstonLogger,
-    EventBus,
-    InMemoryAsyncEventBus,
+    DomainEventPublisher,
+    InMemoryAsyncDomainEventPublisher,
   ],
 })
 export class SharedModule {}

@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { SharedModule } from '@shared/SharedModule';
 import { CreateUserCommandHandler } from './application/commands/CreateUserCommandHandler';
-import { UserCounterSubscriber } from './application/events/UserCounterSubscriber';
+import { UserSingleEventSubscriber } from './application/events/UserSingleEventSubscriber';
 import { UserQueryFactory } from './application/queries/UserQueryFactory';
 import { UserRepository } from './domain/UserRepository';
 import { UserCommandController } from './infrastructure/controllers/UserCommandController';
@@ -16,20 +16,13 @@ import { InMemoryUserRepository } from './infrastructure/repository/InMemoryUser
     // commands
     CreateUserCommandHandler,
     // queries
-    // InMemoryUserQueryFactory,
-    // events
-    UserCounterSubscriber,
     { provide: UserQueryFactory, useFactory: () => new InMemoryUserQueryFactory() },
+    // events
+    UserSingleEventSubscriber,
     // providers
-    // InMemoryUserRepository,
     { provide: UserRepository, useFactory: () => new InMemoryUserRepository() },
   ],
   controllers: [UserQueryController, UserCommandController],
-  exports: [
-    UserRepository,
-    // InMemoryUserRepository,
-    UserQueryFactory,
-    // InMemoryUserQueryFactory,
-  ],
+  exports: [UserRepository, UserQueryFactory],
 })
 export class UsersModule {}

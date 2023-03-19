@@ -16,6 +16,5 @@ export class UserCreatedDomainEvent extends DomainEvent {
       requestId: 'fill_me_in',
     });
     this.userEmail = userEmail;
-    console.log('event created');
   }
 }
