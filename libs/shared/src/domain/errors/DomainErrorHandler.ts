@@ -1,9 +1,20 @@
 import { ArgumentsHost, Catch, ExceptionFilter } from '@nestjs/common';
 import { DomainError } from '@shared/domain/errors/DomainError';
+import {
+  RequestContext,
+  RequestContextData,
+} from '@shared/infrastructure/server/RequestContext';
 import { Request, Response } from 'express';
+import { Logger } from '../Logger';
 
 @Catch()
 export class DomainErrorHandler implements ExceptionFilter {
+  constructor(private readonly logger: Logger) {}
+
+  getRequestContextData(): RequestContextData {
+    return { requestId: RequestContext.get().req.requestId };
+  }
+
   catch(exception: Error | DomainError, host: ArgumentsHost): void {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
@@ -13,6 +24,7 @@ export class DomainErrorHandler implements ExceptionFilter {
      * exception.name = Error
      */
     const errorName = exception.constructor.name.toLowerCase();
+    this.logger.info(errorName);
 
     let status = 500;
     let event = 'n/a';
@@ -29,12 +41,15 @@ export class DomainErrorHandler implements ExceptionFilter {
       }
     }
 
-    response.status(status).json({
+    const data = {
       status,
       timestamp: new Date().toISOString(),
       path: request.url,
       message: exception?.message,
       event,
-    });
+      ...this.getRequestContextData(),
+    };
+    this.logger.error(errorName, data);
+    response.status(status).json();
   }
 }

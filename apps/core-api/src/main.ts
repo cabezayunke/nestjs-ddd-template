@@ -48,7 +48,7 @@ async function bootstrap(): Promise<void> {
   app.useGlobalPipes(new ValidationPipe());
 
   // errors
-  app.useGlobalFilters(new DomainErrorHandler());
+  app.useGlobalFilters(new DomainErrorHandler(logger));
 
   // request context
   // app.use(RequestContextMiddleware);
