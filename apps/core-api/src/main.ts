@@ -20,8 +20,8 @@ async function bootstrap(): Promise<void> {
   // docs
   if (configService.get<boolean>('isLocal')) {
     const config = new DocumentBuilder()
-      .setTitle('Curtis Core API')
-      .setDescription('Curtis core management endpoints')
+      .setTitle('Core API')
+      .setDescription('Core API management endpoints')
       .setVersion('1.0')
       .addTag('core')
       .build();
