@@ -12,14 +12,10 @@ export class Order {
 
   static fromValues(orderBy?: string, orderType?: string): Order {
     if (!orderBy) {
-      return Order.none();
+      return Order.default();
     }
 
     return new Order(new OrderBy(orderBy), OrderType.fromValue(orderType || OrderTypes.ASC));
-  }
-
-  static none(): Order {
-    return new Order(new OrderBy(''), new OrderType(OrderTypes.NONE));
   }
 
   static desc(orderBy: string): Order {
@@ -30,7 +26,7 @@ export class Order {
     return new Order(new OrderBy(orderBy), new OrderType(OrderTypes.ASC));
   }
 
-  public hasOrder() {
-    return !this.orderType.isNone();
+  static default(): Order {
+    return Order.desc("id");
   }
 }

@@ -1,20 +1,33 @@
-import { Filter } from './Filter';
 import { Order } from './Order';
 import { Pagination } from './Pagination';
+import { Filter } from './filters/Filter';
 
+export interface CriteriaParams {
+  filter: Filter;
+  order?: Order;
+  pagination?: Pagination;
+}
 export class Criteria {
-  readonly filters: Filter[];
-  readonly order: Order;
+  readonly filter: Filter;
+  readonly order?: Order;
   readonly pagination?: Pagination;
   
-  constructor(filters: Filter[], order: Order, pagination: Pagination) {
-    this.filters = filters;
+  constructor({ filter, order, pagination }: CriteriaParams) {
+    this.filter = filter;
     this.order = order;
     this.pagination = pagination;
   }
 
-  public hasFilters(): boolean {
-    return this.filters.length > 0;
+  public hasFilter(): boolean {
+    return this.filter.hasFilter();
+  }
+
+  public hasOrder(): boolean {
+    return !!this.order;
+  }
+
+  public hasPagination(): boolean {
+    return !!this.pagination;
   }
   
 }

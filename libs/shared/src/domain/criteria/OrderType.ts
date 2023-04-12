@@ -4,7 +4,6 @@ import { EnumValueObject } from "../value-object/primitives/EnumValueObject";
 export enum OrderTypes {
   ASC = 'asc',
   DESC = 'desc',
-  NONE = 'none'
 }
 
 export class OrderType extends EnumValueObject<OrderTypes> {
@@ -21,10 +20,6 @@ export class OrderType extends EnumValueObject<OrderTypes> {
       default:
         throw new InvalidArgumentError(`The order type ${value} is invalid`);
     }
-  }
-
-  public isNone(): boolean {
-    return this.value === OrderTypes.NONE;
   }
 
   public isAsc(): boolean {
