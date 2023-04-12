@@ -1,6 +1,8 @@
-import { Order } from './Order';
-import { Pagination } from './Pagination';
 import { Filter } from './filters/Filter';
+import { Operator } from './filters/FilterOperator';
+import { SingleFilter } from './filters/SingleFilter';
+import { Order } from './order/Order';
+import { Pagination } from './pagination/Pagination';
 
 export interface CriteriaParams {
   filter: Filter;
@@ -8,7 +10,7 @@ export interface CriteriaParams {
   pagination?: Pagination;
 }
 export class Criteria {
-  readonly filter: Filter;
+  readonly filter?: Filter;
   readonly order?: Order;
   readonly pagination?: Pagination;
   
@@ -19,7 +21,7 @@ export class Criteria {
   }
 
   public hasFilter(): boolean {
-    return this.filter.hasFilter();
+    return !!this.filter && this.filter.hasFilter();
   }
 
   public hasOrder(): boolean {
@@ -30,4 +32,22 @@ export class Criteria {
     return !!this.pagination;
   }
   
+  public isEmpty() {
+    return !this.filter && !this.order && !this.pagination;
+  }
+
+  static equal(field: string, value: string): Criteria {
+    return new Criteria({
+      filter: SingleFilter.fromPrimitives({
+        field,
+        operator: Operator.EQUAL,
+        value
+      })
+    })
+  }
+
+  static empty(): Criteria {
+    return new Criteria({} as CriteriaParams);
+  }
+
 }

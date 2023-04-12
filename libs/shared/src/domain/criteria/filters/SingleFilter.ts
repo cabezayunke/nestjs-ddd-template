@@ -5,12 +5,14 @@ import { FilterOperator } from './FilterOperator';
 import { FilterPrimitives } from './FilterPrimitives';
 import { FilterValue } from './FilterValue';
 
-export class SingleFilter implements Filter {
+export class SingleFilter {
+  readonly type: FilterType;
   readonly field: FilterField;
   readonly operator: FilterOperator;
   readonly value: FilterValue;
   
   constructor(field: FilterField, operator: FilterOperator, value: FilterValue) {
+    this.type = FilterType.SINGLE;
     this.field = field;
     this.operator = operator;
     this.value = value;
@@ -28,14 +30,6 @@ export class SingleFilter implements Filter {
 
   hasFilter(): boolean {
     return !!this.field && !!this.operator && !!this.value;
-  }
-
-  getType(): FilterType {
-    return FilterType.SINGLE;
-  }
-
-  getFilters(): Filter[] {
-    return [this];
   }
   
 }

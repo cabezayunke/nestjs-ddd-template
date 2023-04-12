@@ -3,8 +3,8 @@ import { DomainEvent } from '../../../src/domain/events/DomainEvent';
 export class DummyEvent extends DomainEvent {
   static eventName = 'dummy:event';
 
-  constructor(id: string) {
-    super(DummyEvent.eventName, id);
+  constructor(aggregateId: string) {
+    super({ eventName: DummyEvent.eventName, aggregateId });
   }
 
   toPrimitives(): unknown {

@@ -1,11 +1,11 @@
-export interface Filter {
-  hasFilter(): boolean;
-  getType(): FilterType;
-  getFilters(): Filter[];
-}
+import { MultiFilter } from "./MultiFilter";
+import { SingleFilter } from "./SingleFilter";
+
+export type Filter = SingleFilter | MultiFilter;
 
 export enum FilterType {
   SINGLE,
   AND,
-  OR
+  OR,
+  EMPTY
 }

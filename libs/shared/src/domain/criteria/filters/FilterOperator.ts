@@ -45,4 +45,23 @@ export class FilterOperator extends EnumValueObject<Operator> {
   static equal() {
     return this.fromValue(Operator.EQUAL);
   }
+
+  isEqual() {
+    return this.value === Operator.EQUAL;
+  }
+  isNotEqual() {
+    return this.value === Operator.NOT_EQUAL;
+  }
+  isContains() {
+    return this.value === Operator.CONTAINS;
+  }
+  isNotContains() {
+    return this.value === Operator.NOT_CONTAINS;
+  }
+  isGreaterThan() {
+    return this.value === Operator.GT;
+  }
+  isLessThan() {
+    return this.value === Operator.LT;
+  }
 }

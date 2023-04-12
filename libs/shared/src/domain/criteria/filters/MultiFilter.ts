@@ -1,7 +1,7 @@
 import { InvalidArgumentError } from "@shared/domain/errors/InvalidArgumentError";
 import { Filter, FilterType } from "./Filter";
 
-export class MultiFilter implements Filter {
+export class MultiFilter {
   
   readonly filters: Filter[];
   readonly type: FilterType;
@@ -27,11 +27,4 @@ export class MultiFilter implements Filter {
     return new MultiFilter(FilterType.AND, ...filters);
   }
 
-  getType(): FilterType {
-    return this.type;
-  }
-
-  getFilters(): Filter[] {
-    return this.filters;
-  }
 }

@@ -1,5 +1,5 @@
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { InMemoryAsyncEventBus } from '../../src/infrastructure/events/InMemoryAsyncDomainEventPublisher';
+import { InMemoryAsyncDomainEventPublisher } from '../../src/infrastructure/events/InMemoryAsyncDomainEventPublisher';
 import { DummyEvent } from '../domain/events/DummyEvent';
 
 describe('InMemoryAsyncEventBus', () => {
@@ -14,7 +14,7 @@ describe('InMemoryAsyncEventBus', () => {
       done();
     });
 
-    const eventBus = new InMemoryAsyncEventBus(emitter, console);
+    const eventBus = new InMemoryAsyncDomainEventPublisher(emitter, console);
 
     // act
     eventBus.publish([event]);

@@ -15,7 +15,7 @@ describe('Filter', () => {
     const filter = SingleFilter.fromPrimitives(usernameFilterValues)
 
     // assert
-    expect(filter.getType() === FilterType.SINGLE);
+    expect(filter.type === FilterType.SINGLE);
   });
 
   test('should throw error for missing field', () => {
@@ -51,7 +51,7 @@ describe('Filter', () => {
     )
 
     // assert
-    expect(filter.getType() === FilterType.AND);
+    expect(filter.type === FilterType.AND);
   });
 
   test('should create or filter', () => {
@@ -64,7 +64,7 @@ describe('Filter', () => {
     )
 
     // assert
-    expect(filter.getType() === FilterType.OR);
+    expect(filter.type === FilterType.OR);
   });
 
   test('should throw error for multifilter with less than 2 filters', () => {
@@ -89,11 +89,11 @@ describe('Filter', () => {
         SingleFilter.fromPrimitives(usernameFilterValues),
         SingleFilter.fromPrimitives(emailFilterValues),
       )
-    )
+    ) as MultiFilter;
    
 
     // assert
-    expect(filter.getType() === FilterType.AND);
-    expect(filter.getFilters().every(f => f.getType() === FilterType.OR)).toBeTruthy();
+    expect(filter.type === FilterType.AND);
+    expect(filter.filters.every(f => f.type === FilterType.OR)).toBeTruthy();
   });
 });

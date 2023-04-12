@@ -1,8 +1,8 @@
 import { Criteria } from "@shared/domain/criteria/Criteria";
-import { Order } from "@shared/domain/criteria/Order";
-import { Pagination } from "@shared/domain/criteria/Pagination";
 import { Operator } from "@shared/domain/criteria/filters/FilterOperator";
 import { SingleFilter } from "@shared/domain/criteria/filters/SingleFilter";
+import { Order } from "@shared/domain/criteria/order/Order";
+import { Pagination } from "@shared/domain/criteria/pagination/Pagination";
 
 describe('Criteria', () => {
   const filter = SingleFilter.fromPrimitives({ field: 'username', operator: Operator.EQUAL, value: 'yunke' });
