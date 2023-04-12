@@ -3,17 +3,14 @@ import { UserFinder } from '@context/users/domain/UserFinder';
 import { UserRepository } from '@context/users/domain/UserRepository';
 import { UserEmail } from '@context/users/domain/value-object/UserEmail';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import { Logger } from '@shared/domain/Logger';
 import { DomainEvent } from '@shared/domain/events/DomainEvent';
 import { DomainEventPublisher } from '@shared/domain/events/DomainEventPublisher';
-import { Logger } from '@shared/domain/Logger';
-import {
-  RequestContext,
-  RequestContextData,
-} from '@shared/infrastructure/server/RequestContext';
+import { Handler } from '../Handler';
 import { CreateUserCommand } from './CreateUserCommand';
 
 @CommandHandler(CreateUserCommand)
-export class CreateUserCommandHandler implements ICommandHandler<CreateUserCommand> {
+export class CreateUserCommandHandler extends Handler implements ICommandHandler<CreateUserCommand> {
   private readonly userFinder: UserFinder;
 
   constructor(
@@ -21,11 +18,8 @@ export class CreateUserCommandHandler implements ICommandHandler<CreateUserComma
     private readonly publisher: DomainEventPublisher,
     private readonly logger: Logger,
   ) {
+    super();
     this.userFinder = new UserFinder(repository);
-  }
-
-  getRequestContextData(): RequestContextData {
-    return { requestId: RequestContext.get().req.requestId };
   }
 
   async execute(command: CreateUserCommand): Promise<void> {

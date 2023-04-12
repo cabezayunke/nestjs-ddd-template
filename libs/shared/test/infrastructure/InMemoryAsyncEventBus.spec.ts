@@ -1,6 +1,6 @@
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { InMemoryAsyncDomainEventPublisher } from '../../src/infrastructure/events/InMemoryAsyncDomainEventPublisher';
-import { DummyEvent } from '../domain/events/DummyEvent';
+import { DummyEvent } from '../DummyEvent';
 
 describe('InMemoryAsyncEventBus', () => {
   it('the subscriber should be called when the event it is subscribed to is published', done => {

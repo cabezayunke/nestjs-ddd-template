@@ -1,4 +1,4 @@
-import { DomainEvent } from '../../../src/domain/events/DomainEvent';
+import { DomainEvent } from '../src/domain/events/DomainEvent';
 
 export class DummyEvent extends DomainEvent {
   static eventName = 'dummy:event';
