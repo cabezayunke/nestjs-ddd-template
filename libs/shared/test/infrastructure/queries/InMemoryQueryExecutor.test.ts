@@ -1,4 +1,6 @@
 import { Criteria } from "@shared/domain/criteria/Criteria";
+import { Order } from "@shared/domain/criteria/order/Order";
+import { Pagination } from "@shared/domain/criteria/pagination/Pagination";
 import { InMemoryQueryExecutor } from "@shared/infrastructure/queries/InMemoryQueryExecutor";
 
 describe('InMemoryQueryExecutor', () => {
@@ -15,6 +17,7 @@ describe('InMemoryQueryExecutor', () => {
     id: 'anotherId',
     email: 'lalala@gmail.com'
   }
+  
   const data = [item1, item2, item3];
   const executor = new InMemoryQueryExecutor(data);
   
@@ -57,5 +60,54 @@ describe('InMemoryQueryExecutor', () => {
     
   });
 
-  
+  describe('Pagination', () => {
+    test.each([
+      { 
+        criteria: new Criteria({ pagination: Pagination.fromValues(2, 0) }),
+        expectedResult: [item1, item2]
+      },
+      { 
+        criteria: new Criteria({ pagination: Pagination.fromValues(undefined, 0) }),
+        expectedResult: [item1, item2, item3]
+      },
+      { 
+        criteria: new Criteria({ pagination: Pagination.fromValues(1, 0) }),
+        expectedResult: [item1]
+      },
+      { 
+        criteria: new Criteria({ pagination: Pagination.fromValues(2, 1) }),
+        expectedResult: [item2, item3]
+      },
+      { 
+        criteria: new Criteria({ pagination: Pagination.fromValues(1, 2) }),
+        expectedResult: [item3]
+      }
+    ])('should get paginated results for limit $criteria.pagination.limit.value, offset $criteria.pagination.offset.value', ({ criteria, expectedResult }) => {
+      // arrange
+      // act
+      const result = executor.execute<CustomResponse>(criteria) as CustomResponse[];
+
+      // assert
+      expect(result).toStrictEqual(expectedResult);
+    });
+  });
+
+  test.each([
+    { 
+      criteria: new Criteria({ order: Order.asc('email') }),
+      expectedResult: [item3, item1, item2]
+    },
+    { 
+      criteria: new Criteria({ order: Order.desc('email') }),
+      expectedResult: [item2, item1, item3]
+    },
+  ])('should order results by ', ({ criteria, expectedResult }) => {
+      // arrange
+      // act
+      const result = executor.execute<CustomResponse>(criteria) as CustomResponse[];
+
+      // assert
+      expect(result).toStrictEqual(expectedResult);
+  });
+
 });

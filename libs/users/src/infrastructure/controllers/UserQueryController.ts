@@ -1,4 +1,5 @@
 import { GetUserByEmailQuery } from '@context/users/application/queries/GetUserByEmailQuery';
+import { GetUsersQuery } from '@context/users/application/queries/GetUsersQuery';
 import { Controller, Get, Param } from '@nestjs/common';
 import { QueryBus } from '@nestjs/cqrs';
 import {
@@ -11,6 +12,7 @@ import {
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { GetUserByEmailParams } from './input/GetUserByEmailParams';
+import { GetUsersParams } from './input/GetUsersParams';
 import { UserOutput } from './output/UserOutput';
 
 @ApiBearerAuth()
@@ -29,5 +31,11 @@ export class UserQueryController {
   })
   async getUserByEmail(@Param() { email }: GetUserByEmailParams): Promise<UserOutput> {
     return this.queryBus.execute(new GetUserByEmailQuery(email));
+  }
+
+  @Get()
+  @ApiOkResponse({ description: 'Paginated users' })
+  async getUsers(@Param() { limit, offset, orderBy, orderType }: GetUsersParams): Promise<UserOutput[]> {
+    return this.queryBus.execute(new GetUsersQuery(limit, offset, orderBy, orderType));
   }
 }

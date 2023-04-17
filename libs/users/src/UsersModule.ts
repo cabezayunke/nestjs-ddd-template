@@ -4,6 +4,7 @@ import { SharedModule } from '@shared/SharedModule';
 import { CreateUserCommandHandler } from './application/commands/CreateUserCommandHandler';
 import { UserSingleEventSubscriber } from './application/events/UserSingleEventSubscriber';
 import { GetUserByEmailQueryHandler } from './application/queries/GetUserByEmailQueryHandler';
+import { GetUsersQueryHandler } from './application/queries/GetUsersQueryHandler';
 import { UserRepository } from './domain/UserRepository';
 import { UserCommandController } from './infrastructure/controllers/UserCommandController';
 import { UserQueryController } from './infrastructure/controllers/UserQueryController';
@@ -17,6 +18,7 @@ import { InMemoryUserRepository } from './infrastructure/repository/InMemoryUser
     CreateUserCommandHandler,
     // queries
     GetUserByEmailQueryHandler,
+    GetUsersQueryHandler,
     // events
     UserSingleEventSubscriber,
     // providers

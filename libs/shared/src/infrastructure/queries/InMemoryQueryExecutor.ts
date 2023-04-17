@@ -1,5 +1,8 @@
 
 import { SingleMultiValueFilter } from "@shared/domain/criteria/filters/SingleMultiValueFilter"
+import { Order } from "@shared/domain/criteria/order/Order"
+import { OrderTypes } from "@shared/domain/criteria/order/OrderType"
+import { Pagination } from "@shared/domain/criteria/pagination/Pagination"
 import { Criteria } from "../../domain/criteria/Criteria"
 import { Filter, FilterType } from "../../domain/criteria/filters/Filter"
 import { Operator } from "../../domain/criteria/filters/FilterOperator"
@@ -105,11 +108,33 @@ export class InMemoryQueryExecutor implements QueryExecutor {
     throw new Error('Invalid filter');
   }
 
-  execute<Response>(criteria: Criteria): Response[] | Promise<Response[]> {
-    if (criteria.filter?.type === FilterType.EMPTY) {
-      return this.data as Response[];
-    }
+  private handlePagination(pagination: Pagination, data: Record<string, any>[] ): Record<string, any>[]  {
+    return pagination
+      ? data.slice(pagination?.offset.value, pagination?.offset.value + pagination?.limit.value)
+      : data;
+  }
 
-    return this.data.filter(this.handleFilter(criteria.filter as Filter)) as Response[];
+  private handleOrder(order: Order, data: Record<string, any>[] ): Record<string, any>[]  {
+    if (order) {
+      const orderField = order?.orderBy.value;
+      if (orderField && order?.orderType.value === OrderTypes.ASC) {
+        return data.sort((a: any, b: any) => a[orderField] > b[orderField] ? 1 : -1)
+      } else if (order?.orderType.value === OrderTypes.DESC) {
+        return data.sort((a: any, b: any) => a[orderField] > b[orderField] ? -1 : 1)
+      }
+    }
+    return data;
+  }
+
+  execute<Response>(criteria: Criteria): Response[] | Promise<Response[]> {
+
+    const filteredData = criteria.hasFilter()
+      ? this.data.filter(this.handleFilter(criteria.filter as Filter))
+      : this.data;
+
+    return this.handleOrder(
+      criteria.order as Order, 
+      this.handlePagination(criteria.pagination as Pagination, filteredData)
+    ) as Response[];
   }
 }

@@ -5,7 +5,7 @@ import { Order } from './order/Order';
 import { Pagination } from './pagination/Pagination';
 
 export interface CriteriaParams {
-  filter: Filter;
+  filter?: Filter;
   order?: Order;
   pagination?: Pagination;
 }

@@ -6,7 +6,7 @@ import { createTestApp } from '../../../libs/shared/test/e2eSetup';
 import { UserObjectMother } from '../../../libs/users/test/UserObjectMother';
 import { CoreApiModule } from '../src/CoreApiModule';
 
-describe('Get user by email (e2e)', () => {
+describe('Get users (e2e)', () => {
   let app: INestApplication;
   const user = UserObjectMother.fullUser();
 
@@ -21,7 +21,7 @@ describe('Get user by email (e2e)', () => {
     ]);
   });
 
-  it('GET /users/:email', async () => {
-    await request(app.getHttpServer()).get(`/users/${user.email.value}`).expect(200);
+  it('GET /users', async () => {
+    await request(app.getHttpServer()).get(`/users?limit=2&offset=0&order=asc`).expect(200);
   });
 });
