@@ -1,6 +1,6 @@
 import { GetUserByEmailQuery } from '@context/users/application/queries/GetUserByEmailQuery';
-import { UserQueryFactory } from '@context/users/application/queries/UserQueryFactory';
 import { Controller, Get, Param } from '@nestjs/common';
+import { QueryBus } from '@nestjs/cqrs';
 import {
   ApiBadRequestResponse,
   ApiBearerAuth,
@@ -20,7 +20,7 @@ import { UserOutput } from './output/UserOutput';
 @ApiBadRequestResponse()
 @Controller('users')
 export class UserQueryController {
-  constructor(private readonly userQueryFactory: UserQueryFactory) {}
+  constructor(private readonly queryBus: QueryBus) {}
 
   @Get(':email')
   @ApiOkResponse({ description: 'User found' })
@@ -28,6 +28,6 @@ export class UserQueryController {
     description: 'Not found. User does not exist',
   })
   async getUserByEmail(@Param() { email }: GetUserByEmailParams): Promise<UserOutput> {
-    return this.userQueryFactory.findUserByEmail(new GetUserByEmailQuery(email));
+    return this.queryBus.execute(new GetUserByEmailQuery(email));
   }
 }

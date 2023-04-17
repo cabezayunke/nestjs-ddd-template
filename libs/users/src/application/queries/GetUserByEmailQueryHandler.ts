@@ -1,9 +1,12 @@
+import { UserNotFound } from "@context/users/domain/error/UserNotFound";
+import { Inject } from "@nestjs/common";
 import { IQueryHandler, QueryHandler } from "@nestjs/cqrs";
-import { Logger } from "winston";
+import { Logger } from "@shared/domain/Logger";
+import { Criteria } from "@shared/domain/criteria/Criteria";
+import { QueryExecutor } from "@shared/domain/queries/QueryExecutor";
 import { Handler } from "../Handler";
 import { GetUserByEmailQuery } from "./GetUserByEmailQuery";
 import { GetUserByEmailQueryResponse } from "./GetUserByEmailQueryResponse";
-import { UserQueryFactory } from "./UserQueryFactory";
 
 @QueryHandler(GetUserByEmailQuery)
 export class GetUserByEmailQueryHandler 
@@ -11,7 +14,7 @@ export class GetUserByEmailQueryHandler
   implements IQueryHandler<GetUserByEmailQuery, GetUserByEmailQueryResponse> 
 {
   constructor(
-    private readonly queryFactory: UserQueryFactory,
+    @Inject('QueryExecutor') private readonly queryExecutor: QueryExecutor,
     private readonly logger: Logger,
   ) {
     super();
@@ -22,6 +25,11 @@ export class GetUserByEmailQueryHandler
       query,
       ...this.getRequestContextData(),
     });
-    return this.queryFactory.findUserByEmail(query);
+    const criteria = Criteria.equal('email', query.email);
+    const result = await this.queryExecutor.execute<GetUserByEmailQueryResponse>(criteria);
+    if (!result.length) {
+      throw new UserNotFound()
+    }
+    return result[0] as GetUserByEmailQueryResponse;
   }
 }

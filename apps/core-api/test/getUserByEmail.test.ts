@@ -1,7 +1,6 @@
-import { UserQueryFactory } from '@context/users/application/queries/UserQueryFactory';
-import { InMemoryUserQueryFactory } from '@context/users/infrastructure/repository/InMemoryUserQueryFactory';
 import { INestApplication, Logger } from '@nestjs/common';
 import { PrettyWinstonLogger } from '@shared/infrastructure/logger/PrettyWinstonLogger';
+import { InMemoryQueryExecutor } from '@shared/infrastructure/queries/InMemoryQueryExecutor';
 import request from 'supertest';
 import { createTestApp } from '../../../libs/shared/test/e2eSetup';
 import { UserObjectMother } from '../../../libs/users/test/UserObjectMother';
@@ -14,9 +13,9 @@ describe('Get user by id (e2e)', () => {
   beforeEach(async () => {
     app = await createTestApp(CoreApiModule, [
       {
-        provide: UserQueryFactory,
+        provide: 'QueryExecutor',
         useFactory: () =>
-          new InMemoryUserQueryFactory({ [user.id.value]: user.toPrimitives() }),
+          new InMemoryQueryExecutor([user.toPrimitives()]),
       },
       { provide: Logger, useClass: PrettyWinstonLogger },
     ]);

@@ -3,11 +3,11 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { SharedModule } from '@shared/SharedModule';
 import { CreateUserCommandHandler } from './application/commands/CreateUserCommandHandler';
 import { UserSingleEventSubscriber } from './application/events/UserSingleEventSubscriber';
-import { UserQueryFactory } from './application/queries/UserQueryFactory';
+import { GetUserByEmailQueryHandler } from './application/queries/GetUserByEmailQueryHandler';
 import { UserRepository } from './domain/UserRepository';
 import { UserCommandController } from './infrastructure/controllers/UserCommandController';
 import { UserQueryController } from './infrastructure/controllers/UserQueryController';
-import { InMemoryUserQueryFactory } from './infrastructure/repository/InMemoryUserQueryFactory';
+import { InMemoryUserQueryExecutor } from './infrastructure/queries/InMemoryUserQueryExecutor';
 import { InMemoryUserRepository } from './infrastructure/repository/InMemoryUserRepository';
 
 @Module({
@@ -16,13 +16,14 @@ import { InMemoryUserRepository } from './infrastructure/repository/InMemoryUser
     // commands
     CreateUserCommandHandler,
     // queries
-    { provide: UserQueryFactory, useFactory: () => new InMemoryUserQueryFactory() },
+    GetUserByEmailQueryHandler,
     // events
     UserSingleEventSubscriber,
     // providers
     { provide: UserRepository, useFactory: () => new InMemoryUserRepository() },
+    { provide: 'QueryExecutor', useFactory: () => new InMemoryUserQueryExecutor() },
   ],
   controllers: [UserQueryController, UserCommandController],
-  exports: [UserRepository, UserQueryFactory],
+  exports: [UserRepository],
 })
 export class UsersModule {}

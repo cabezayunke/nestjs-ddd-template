@@ -1,6 +1,6 @@
 import { Filter } from './filters/Filter';
-import { Operator } from './filters/FilterOperator';
 import { SingleFilter } from './filters/SingleFilter';
+import { SingleMultiValueFilter } from './filters/SingleMultiValueFilter';
 import { Order } from './order/Order';
 import { Pagination } from './pagination/Pagination';
 
@@ -36,18 +36,43 @@ export class Criteria {
     return !this.filter && !this.order && !this.pagination;
   }
 
-  static equal(field: string, value: string): Criteria {
-    return new Criteria({
-      filter: SingleFilter.fromPrimitives({
-        field,
-        operator: Operator.EQUAL,
-        value
-      })
-    })
-  }
-
   static empty(): Criteria {
     return new Criteria({} as CriteriaParams);
   }
 
+  static equal(field: string, value: string): Criteria {
+    return new Criteria({
+      filter: SingleFilter.equal(field, value)
+    })
+  }
+
+  static notEqual(field: string, value: string): Criteria {
+    return new Criteria({
+      filter: SingleFilter.notEqual(field, value)
+    })
+  }
+
+  static contains(field: string, value: string): Criteria {
+    return new Criteria({
+      filter: SingleFilter.contains(field, value)
+    })
+  }
+
+  static notContains(field: string, value: string): Criteria {
+    return new Criteria({
+      filter: SingleFilter.notContains(field, value)
+    })
+  }
+
+  static in(field: string, values: string[]): Criteria {
+    return new Criteria({
+      filter: SingleMultiValueFilter.in(field, values)
+    })
+  }
+
+  static notIn(field: string, values: string[]): Criteria {
+    return new Criteria({
+      filter: SingleMultiValueFilter.notIn(field, values)
+    })
+  }
 }

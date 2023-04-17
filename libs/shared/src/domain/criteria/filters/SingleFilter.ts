@@ -1,7 +1,7 @@
 import { InvalidArgumentError } from '../../errors/InvalidArgumentError';
 import { Filter, FilterType } from './Filter';
 import { FilterField } from './FilterField';
-import { FilterOperator } from './FilterOperator';
+import { FilterOperator, Operator } from './FilterOperator';
 import { FilterPrimitives } from './FilterPrimitives';
 import { FilterValue } from './FilterValue';
 
@@ -18,8 +18,8 @@ export class SingleFilter {
     this.value = value;
   }
 
-  static fromPrimitives(values: FilterPrimitives): Filter {
-    const { field, operator, value } = values;
+  static fromPrimitives(primitiveValue: FilterPrimitives): Filter {
+    const { field, operator, value } = primitiveValue;
 
     if (!field || !operator || !value) {
       throw new InvalidArgumentError(`The filter is invalid`);
@@ -30,6 +30,54 @@ export class SingleFilter {
 
   hasFilter(): boolean {
     return !!this.field && !!this.operator && !!this.value;
+  }
+
+  static equal(field: string, value: string) {
+    return SingleFilter.fromPrimitives({
+      field,
+      operator: Operator.EQUAL,
+      value
+    })
+  }
+
+  static notEqual(field: string, value: string) {
+    return SingleFilter.fromPrimitives({
+      field,
+      operator: Operator.NOT_EQUAL,
+      value
+    })
+  }
+  
+  static contains(field: string, value: string) {
+    return SingleFilter.fromPrimitives({
+      field,
+      operator: Operator.CONTAINS,
+      value
+    })
+  }
+
+  static notContains(field: string, value: string) {
+    return SingleFilter.fromPrimitives({
+      field,
+      operator: Operator.NOT_CONTAINS,
+      value
+    })
+  }
+
+  static greaterThan(field: string, value: string) {
+    return SingleFilter.fromPrimitives({
+      field,
+      operator: Operator.GT,
+      value
+    })
+  }
+
+  static lessThan(field: string, value: string) {
+    return SingleFilter.fromPrimitives({
+      field,
+      operator: Operator.LT,
+      value
+    })
   }
   
 }

@@ -7,7 +7,9 @@ export enum Operator {
   GT = '>',
   LT = '<',
   CONTAINS = 'CONTAINS',
-  NOT_CONTAINS = 'NOT_CONTAINS'
+  NOT_CONTAINS = 'NOT_CONTAINS',
+  IN = 'IN',
+  NOT_IN = 'NOT_IN'
 }
 
 export class FilterOperator extends EnumValueObject<Operator> {
@@ -29,6 +31,10 @@ export class FilterOperator extends EnumValueObject<Operator> {
         return new FilterOperator(Operator.CONTAINS);
       case Operator.NOT_CONTAINS:
         return new FilterOperator(Operator.NOT_CONTAINS);
+      case Operator.IN:
+        return new FilterOperator(Operator.IN);
+      case Operator.NOT_IN:
+        return new FilterOperator(Operator.NOT_IN);
       default:
         throw new InvalidArgumentError(`The filter operator ${value} is invalid`);
     }
@@ -63,5 +69,11 @@ export class FilterOperator extends EnumValueObject<Operator> {
   }
   isLessThan() {
     return this.value === Operator.LT;
+  }
+  isIn() {
+    return this.value === Operator.IN;
+  }
+  isNotIn() {
+    return this.value === Operator.NOT_IN;
   }
 }
