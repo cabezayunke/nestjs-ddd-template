@@ -1,5 +1,6 @@
 import { AggregateRoot } from '@nestjs/cqrs';
 import { Nullable } from '@shared/domain/types/Nullable';
+import { UserDto } from './UserDto';
 import { UserCreatedDomainEvent } from './event/UserCreatedDomainEvent';
 import { UserEmail } from './value-object/UserEmail';
 import { UserId } from './value-object/UserId';
@@ -46,7 +47,7 @@ export class User extends AggregateRoot {
     return user;
   }
 
-  toPrimitives(): Record<string, unknown> {
+  toPrimitives(): UserDto {
     return {
       id: this.id?.value,
       email: this.email?.value,

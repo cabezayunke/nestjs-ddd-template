@@ -1,4 +1,7 @@
 import { User } from '@context/users/domain/User';
+import { UserEmail } from '@context/users/domain/value-object/UserEmail';
+import { UserId } from '@context/users/domain/value-object/UserId';
+import { UserName } from '@context/users/domain/value-object/UserName';
 import { UserDocument, UserModel } from './MongooseUserModel';
 
 export class MongooseUserRepositoryMapper {
@@ -11,6 +14,10 @@ export class MongooseUserRepositoryMapper {
   }
 
   static toDomain(userDocument: UserDocument): User {
-    return User.create(userDocument.toObject());
+    return new User(
+      UserId.of(userDocument.id),
+      UserEmail.of(userDocument.email),
+      userDocument.name ? UserName.of(userDocument.name) : undefined,
+    );
   }
 }

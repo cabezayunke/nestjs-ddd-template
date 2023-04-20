@@ -40,7 +40,8 @@ services:
    ports:
      - "26257:26257"
      - "8080:8080"
-   command: start-single-node --insecure
+   command: start-single-node --insecure --logtostderr
+  #  entrypoint: ./cockroach sql -e 'CREATE DATABASE IF NTO EXISTS test' --insecure
    volumes:
      - cockroach-volume:/cockroach/cockroach-data
 

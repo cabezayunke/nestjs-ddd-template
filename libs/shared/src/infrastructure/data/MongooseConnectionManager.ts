@@ -7,10 +7,6 @@ import { ConnectionManager } from "../../domain/data/ConnectionManager";
 
 interface MongoDebugConfig {
     debug?: boolean;
-    host?: string;
-    port?: string;
-    database?: string;
-    uri?: string;
 }
 export interface MongoUri extends MongoDebugConfig {
     uri: string;
@@ -37,7 +33,7 @@ export class MongooseConnectionManager implements ConnectionManager {
 
         db.on("connecting", () => {
             this.logger.info(
-                this.config.uri
+                'uri' in this.config
                   ? `connecting to ${this.config.uri}`
                   : `connecting to mongodb://${this.config.host}:${this.config.port}/${this.config.database}`,
                 tags,
@@ -59,7 +55,7 @@ export class MongooseConnectionManager implements ConnectionManager {
             this.logger.info("MongoDB disconnected!", tags);
         });
 
-        this.connection = this.config.uri
+        this.connection = 'uri' in this.config
             ? await mongoose.connect(this.config.uri, { autoIndex: true })
             : await mongoose.connect(
                 `mongodb://${this.config.host}:${this.config.port}/${this.config.database}?authMechanism=DEFAULT`,

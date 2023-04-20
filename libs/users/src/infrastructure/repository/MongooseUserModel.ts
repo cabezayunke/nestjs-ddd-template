@@ -2,14 +2,6 @@ import { Uuid } from '@shared/domain/value-object/Uuid';
 import { Document, Model, Schema, model } from 'mongoose';
 import mongooseLeanVirtuals from 'mongoose-lean-virtuals';
 
-interface UserParams {
-  name?: string;
-  email: string;
-}
-export interface UserDto extends UserParams {
-  id: string;
-}
-
 export type UserModelType = Model<UserDocument>;
 export interface UserDocument extends Document {
   id: string;
