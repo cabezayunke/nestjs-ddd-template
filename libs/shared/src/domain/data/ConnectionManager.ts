@@ -1,4 +1,4 @@
 export interface ConnectionManager {
-    connect(): Promise<void>
-    disconnect(): Promise<void>
+  connect(): Promise<void>
+  disconnect(): Promise<void>
 }

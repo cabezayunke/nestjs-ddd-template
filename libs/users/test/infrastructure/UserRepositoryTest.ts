@@ -1,20 +1,17 @@
 import { User } from '@context/users/domain/User';
 import { UserRepository } from '@context/users/domain/UserRepository';
-import { InMemoryUserRepository } from '@context/users/infrastructure/repository/InMemoryUserRepository';
 import { Criteria } from '@shared/domain/criteria/Criteria';
 import { RandomObjectMother } from '../../../shared/test/RandomObjectMother';
 import { UserObjectMother } from '../UserObjectMother';
 
-export const runUserRepositoryTests = (
-  UserRepository: new (data?: Record<string, unknown>) => UserRepository,
-): void => {
+export const runUserRepositoryTests = (repository: UserRepository): void => {
   describe('Get users', () => {
     test.each([{ id: RandomObjectMother.uuid() }, { email: RandomObjectMother.email() }])(
       'should retrieve existnig user by %s',
       async data => {
         // arrange
         const user = UserObjectMother.fullUser(data) as User;
-        const repository = new UserRepository({ [user.id.value]: user });
+        await repository.save(user);
 
         // act
         const result = await repository.find(Criteria.equal('id', user.id.value));
@@ -30,8 +27,6 @@ export const runUserRepositoryTests = (
       Criteria.equal('email', RandomObjectMother.email()),
     ])('should return empty array if user not found', async (criteria: Criteria) => {
       // arrange
-      const repository = new UserRepository();
-
       // act
       const result = await repository.find(criteria);
 
@@ -42,21 +37,17 @@ export const runUserRepositoryTests = (
     test('should get all users for empty criteria', async () => {
       // arrange
       const user1 = UserObjectMother.fullUser({ id: RandomObjectMother.uuid() }) as User;
-      const user2 = UserObjectMother.fullUser({ email: RandomObjectMother.email() }) as User;
-      const repository = new UserRepository({ 
-        [user1.id.value]: user1,
-        [user2.id.value]: user2,
-       });
+      const user2 = UserObjectMother.fullUser({
+        email: RandomObjectMother.email(),
+      }) as User;
+      await Promise.all([repository.save(user1), repository.save(user2)]);
 
       // act
       const result = await repository.find(Criteria.empty());
 
       // assert
-      expect(result.length).toEqual(2);
+      expect(result.find(u => u.id.value === user1.id.value)).toBeTruthy();
+      expect(result.find(u => u.id.value === user2.id.value)).toBeTruthy();
     });
   });
 };
-
-describe('InMemoryUserRepositoryTest', () => {
-  runUserRepositoryTests(InMemoryUserRepository);
-});

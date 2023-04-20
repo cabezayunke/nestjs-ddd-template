@@ -1,41 +1,62 @@
 services:
-  core-api:
-    build:
-      dockerfile: Dockerfile
-      context: .
-      # Only will build development stage from our dockerfile
-      target: development
-    volumes:
-      - .:/usr/src/app
-    env_file:
-    - .env.docker
-    # Run a command against the development stage of the image
-    command: npm run start:docker
-    ports:
-      - 3000:3000
+  # core-api:
+  #   build:
+  #     dockerfile: Dockerfile
+  #     context: .
+  #     # Only will build development stage from our dockerfile
+  #     target: development
+  #   volumes:
+  #     - .:/usr/src/app
+  #   env_file:
+  #   - .env.docker
+  #   # Run a command against the development stage of the image
+  #   command: npm run start:docker
+  #   ports:
+  #     - 3000:3000
 
-  redis-cache:
-    image: redis
-    ports:
-      - 6379:6379
-    volumes:
-      - redis-volume:/data
+  # redis-cache:
+  #   image: redis
+  #   ports:
+  #     - 6379:6379
+  #   volumes:
+  #     - redis-volume:/data
 
-  postgresdb:
-    image: postgres
-    restart: always
-    env_file:
-    - .env.docker
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+  # postgresdb:
+  #   image: postgres
+  #   restart: always
+  #   env_file:
+  #   - .env.docker
+  #   environment:
+  #     POSTGRES_DB: ${POSTGRES_DB}
+  #     POSTGRES_USER: ${POSTGRES_USER}
+  #     POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+  #   ports:
+  #     - '5432:5432'
+  #   volumes:
+  #     - pg-volume:/var/lib/postgresql/data
+
+ cockroachdb:
+   image: cockroachdb/cockroach:v22.2.8
+   ports:
+     - "26257:26257"
+     - "8080:8080"
+   command: start-single-node --insecure
+   volumes:
+     - cockroach-volume:/cockroach/cockroach-data
+
+ mongodb:
+    image: mongo:5.0
     ports:
-      - '5432:5432'
+      - 27017:27017
     volumes:
-      - pg-volume:/var/lib/postgresql/data
+      - mongodb-volume:/data/db
+    # environment:
+      # - MONGO_INITDB_ROOT_USERNAME=root
+      # - MONGO_INITDB_ROOT_PASSWORD=rootpass
 
 volumes:
-  redis-volume:
-    driver: local
-  pg-volume:
+  # redis-volume:
+  #   driver: local
+  # pg-volume:
+  cockroach-volume:
+  mongodb-volume:

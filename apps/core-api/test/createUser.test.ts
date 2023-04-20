@@ -3,7 +3,7 @@ import { InMemoryUserRepository } from '@context/users/infrastructure/repository
 import { INestApplication, Logger } from '@nestjs/common';
 import { PrettyWinstonLogger } from '@shared/infrastructure/logger/PrettyWinstonLogger';
 import request from 'supertest';
-import { createTestApp } from '../../../libs/shared/test/e2eSetup';
+import { createTestApp } from '../../../libs/shared/test/setup/e2eSetup';
 import { UserObjectMother } from '../../../libs/users/test/UserObjectMother';
 import { CoreApiModule } from '../src/CoreApiModule';
 
