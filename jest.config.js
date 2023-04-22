@@ -20,4 +20,5 @@ module.exports = {
   //   "**/*.(t|j)s"
   // ],
   // "coverageDirectory": "./coverage",
+  setupFiles: ["<rootDir>/jest.env.js"]
 };

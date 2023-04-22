@@ -18,12 +18,15 @@ export interface MongoParams extends MongoDebugConfig {
     user: string;
     password: string;
 }
-export class MongooseConnectionManager implements ConnectionManager {
+export class MongooseConnectionManager implements ConnectionManager<Mongoose> {
 
     private connection: Mongoose;
 
-    // TODO: add proper logging
     constructor(private readonly config: MongoUri | MongoParams, private readonly logger: Logger) {}
+
+    getConnection(): typeof mongoose {
+      return this.connection;
+    }
 
     async connect(): Promise<void> {
         const db = mongoose.connection;

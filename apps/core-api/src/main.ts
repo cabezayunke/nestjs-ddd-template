@@ -4,8 +4,9 @@ import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { SchemaObject } from '@nestjs/swagger/dist/interfaces/open-api-spec.interface';
 import { Logger } from '@shared/domain/Logger';
-import { getFromContainer, MetadataStorage } from 'class-validator';
+import { MetadataStorage, getFromContainer } from 'class-validator';
 import { validationMetadatasToSchemas } from 'class-validator-jsonschema';
+import 'reflect-metadata';
 import { DomainErrorHandler } from '../../../libs/shared/src/domain/errors/DomainErrorHandler';
 import { CoreApiModule } from './CoreApiModule';
 

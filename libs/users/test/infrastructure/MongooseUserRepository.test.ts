@@ -15,6 +15,6 @@ describe('MongooseUserRepositoryTest', () => {
   });
 
   describe('run after setup', () => {
-    runUserRepositoryTests(new MongooseUserRepository());
+    runUserRepositoryTests(() => new MongooseUserRepository());
   });
 });

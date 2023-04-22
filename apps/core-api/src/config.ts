@@ -12,6 +12,6 @@ export const loadCoreApiConfig = (): CoreApiConfig => {
   return {
     serverPort: ConfigParser.getOptionalNumberEnvVar('SERVER_PORT', 3000),
     isLocal: currentEnv === 'local',
-    mongoUri: ConfigParser.getMandatoryStringEnvVar('MONGO_URI')
+    mongoUri: ConfigParser.getMandatoryStringEnvVar('MONGO_URI'),
   };
 };

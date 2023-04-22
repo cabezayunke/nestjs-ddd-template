@@ -4,7 +4,15 @@ import { Criteria } from '@shared/domain/criteria/Criteria';
 import { RandomObjectMother } from '../../../shared/test/RandomObjectMother';
 import { UserObjectMother } from '../UserObjectMother';
 
-export const runUserRepositoryTests = (repository: UserRepository): void => {
+export const runUserRepositoryTests = (
+  createUserRepository: () => UserRepository,
+): void => {
+  let repository: UserRepository;
+
+  beforeEach(() => {
+    repository = createUserRepository();
+  });
+
   describe('Get users', () => {
     test.each([{ id: RandomObjectMother.uuid() }, { email: RandomObjectMother.email() }])(
       'should retrieve existnig user by %s',

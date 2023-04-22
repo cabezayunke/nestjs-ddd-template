@@ -4,14 +4,17 @@ import { UserId } from '@context/users/domain/value-object/UserId';
 import { Criteria } from '@shared/domain/criteria/Criteria';
 import { FilterType } from '@shared/domain/criteria/filters/Filter';
 import { SingleFilter } from '@shared/domain/criteria/filters/SingleFilter';
-import { PgSequelizeUserRepositoryMapper } from './PgSequelizeUserRepositoryMapper';
-import { User as SequelizeUser } from './SequelizeUserModel';
+import { Repository } from 'typeorm';
+import { CockroachUserRepositoryMapper } from './CockroachUserRepositoryMapper';
+import { UserEntity } from './UserEntity';
 
-export class PgSequelizeUserRepository implements UserRepository {
+export class CockroachUserRepository implements UserRepository {
+  constructor(private readonly repository: Repository<UserEntity>) {}
+
   async find(criteria: Criteria): Promise<User[]> {
     if (criteria.isEmpty()) {
-      const result = await SequelizeUser.findAll();
-      return result.map(PgSequelizeUserRepositoryMapper.toDomain);
+      const result = await this.repository.find();
+      return result.map(CockroachUserRepositoryMapper.toDomain);
     }
 
     // ignore multi-filter for now
@@ -19,17 +22,17 @@ export class PgSequelizeUserRepository implements UserRepository {
       const filter = criteria.filter as SingleFilter;
 
       if (filter.field.toString() === 'id' && filter.operator.isEqual()) {
-        const result = await SequelizeUser.findAll({
+        const result = await this.repository.findOne({
           where: { id: filter.value.toString() },
         });
-        return result.map(PgSequelizeUserRepositoryMapper.toDomain);
+        return result ? [CockroachUserRepositoryMapper.toDomain(result)] : [];
       }
 
       if (filter.field.toString() === 'email' && filter.operator.isEqual()) {
-        const result = await SequelizeUser.findAll({
+        const result = await this.repository.findOne({
           where: { email: filter.value.toString() },
         });
-        return result.map(PgSequelizeUserRepositoryMapper.toDomain);
+        return result ? [CockroachUserRepositoryMapper.toDomain(result)] : [];
       }
     }
 
@@ -37,10 +40,10 @@ export class PgSequelizeUserRepository implements UserRepository {
   }
 
   async remove(id: UserId): Promise<void> {
-    await SequelizeUser.destroy({ where: { id: id.value } });
+    await this.repository.softDelete({ id: id.value });
   }
 
   async save(user: User): Promise<void> {
-    await SequelizeUser.upsert(user.toPrimitives());
+    await this.repository.save(CockroachUserRepositoryMapper.fromDomain(user));
   }
 }

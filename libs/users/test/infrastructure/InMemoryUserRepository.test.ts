@@ -2,5 +2,5 @@ import { InMemoryUserRepository } from '@context/users/infrastructure/repository
 import { runUserRepositoryTests } from './UserRepositoryTest';
 
 describe('InMemoryUserRepositoryTest', () => {
-  runUserRepositoryTests(new InMemoryUserRepository());
+  runUserRepositoryTests(() => new InMemoryUserRepository());
 });
