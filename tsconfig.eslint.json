@@ -12,6 +12,8 @@
     "apps/*/src",
     "libs/*/src",
     "apps/*/test",
-    "libs/*/test"
+    "libs/*/test",
+    "apps/**/migrations", 
+    "apps/**/migrations.ts"
   ]
 }

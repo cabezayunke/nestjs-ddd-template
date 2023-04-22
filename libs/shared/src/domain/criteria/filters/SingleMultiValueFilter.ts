@@ -10,7 +10,7 @@ export class SingleMultiValueFilter {
   readonly field: FilterField;
   readonly operator: FilterOperator;
   readonly values: FilterValue[];
-  
+
   constructor(field: FilterField, operator: FilterOperator, values: FilterValue[]) {
     this.type = FilterType.SINGLE;
     this.field = field;
@@ -18,8 +18,8 @@ export class SingleMultiValueFilter {
     this.values = values;
   }
 
-  get value() {
-    return this.values[0];
+  get value(): FilterValue {
+    return this.values[0] as FilterValue;
   }
 
   static fromPrimitives(primitiveValues: FilterMultiValuePrimitives): Filter {
@@ -29,25 +29,29 @@ export class SingleMultiValueFilter {
       throw new InvalidArgumentError(`The filter is invalid`);
     }
 
-    return new SingleMultiValueFilter(new FilterField(field), FilterOperator.fromValue(operator), values.map(v => new FilterValue(v)) );
+    return new SingleMultiValueFilter(
+      new FilterField(field),
+      FilterOperator.fromValue(operator),
+      values.map(v => new FilterValue(v)),
+    );
   }
 
   hasFilter(): boolean {
     return !!this.field && !!this.operator && !!this.values && !!this.values.length;
   }
-  static in(field: string, values: string[]) {
+  static in(field: string, values: string[]): Filter {
     return SingleMultiValueFilter.fromPrimitives({
       field,
       operator: Operator.IN,
-      values
-    })
+      values,
+    });
   }
 
-  static notIn(field: string, values: string[]) {
+  static notIn(field: string, values: string[]): Filter {
     return SingleMultiValueFilter.fromPrimitives({
       field,
       operator: Operator.NOT_IN,
-      values
-    })
+      values,
+    });
   }
 }

@@ -1,4 +1,4 @@
-import { PaginatedQuery } from "@shared/domain/queries/PaginatedQuery";
+import { PaginatedQuery } from '@shared/domain/queries/PaginatedQuery';
 
 export class GetUsersQuery extends PaginatedQuery {
   constructor(

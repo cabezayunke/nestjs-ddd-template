@@ -1,5 +1,3 @@
-import { Query } from "@shared/domain/queries/Query";
-
-export class GetUserByEmailQuery implements Query {
+export class GetUserByEmailQuery {
   constructor(public readonly email: string) {}
 }

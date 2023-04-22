@@ -1,4 +1,4 @@
-import { MigrationInterface, QueryRunner, Table } from "typeorm";
+import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
 const USER_TABLE = new Table({
   name: 'users',
@@ -42,13 +42,11 @@ const USER_TABLE = new Table({
 });
 
 export class CreateTable1682175377653 implements MigrationInterface {
+  public async up(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.createTable(USER_TABLE, true, true, true);
+  }
 
-    public async up(queryRunner: QueryRunner): Promise<void> {
-      await queryRunner.createTable(USER_TABLE, true, true, true)
-    }
-
-    public async down(queryRunner: QueryRunner): Promise<void> {
-      await queryRunner.dropTable(USER_TABLE)
-    }
-
+  public async down(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.dropTable(USER_TABLE);
+  }
 }

@@ -1,5 +1,5 @@
-import { PaginationLimit } from "./PaginationLimit";
-import { PaginationOffset } from "./PaginationOffset";
+import { PaginationLimit } from './PaginationLimit';
+import { PaginationOffset } from './PaginationOffset';
 
 export class Pagination {
   readonly limit: PaginationLimit;
@@ -21,5 +21,4 @@ export class Pagination {
   static default(): Pagination {
     return Pagination.fromValues(100, 0);
   }
-
 }

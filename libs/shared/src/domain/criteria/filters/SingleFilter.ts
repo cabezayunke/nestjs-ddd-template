@@ -10,7 +10,7 @@ export class SingleFilter {
   readonly field: FilterField;
   readonly operator: FilterOperator;
   readonly value: FilterValue;
-  
+
   constructor(field: FilterField, operator: FilterOperator, value: FilterValue) {
     this.type = FilterType.SINGLE;
     this.field = field;
@@ -25,59 +25,62 @@ export class SingleFilter {
       throw new InvalidArgumentError(`The filter is invalid`);
     }
 
-    return new SingleFilter(new FilterField(field), FilterOperator.fromValue(operator), new FilterValue(value));
+    return new SingleFilter(
+      new FilterField(field),
+      FilterOperator.fromValue(operator),
+      new FilterValue(value),
+    );
   }
 
   hasFilter(): boolean {
     return !!this.field && !!this.operator && !!this.value;
   }
 
-  static equal(field: string, value: string) {
+  static equal(field: string, value: string): Filter {
     return SingleFilter.fromPrimitives({
       field,
       operator: Operator.EQUAL,
-      value
-    })
+      value,
+    });
   }
 
-  static notEqual(field: string, value: string) {
+  static notEqual(field: string, value: string): Filter {
     return SingleFilter.fromPrimitives({
       field,
       operator: Operator.NOT_EQUAL,
-      value
-    })
+      value,
+    });
   }
-  
-  static contains(field: string, value: string) {
+
+  static contains(field: string, value: string): Filter {
     return SingleFilter.fromPrimitives({
       field,
       operator: Operator.CONTAINS,
-      value
-    })
+      value,
+    });
   }
 
-  static notContains(field: string, value: string) {
+  static notContains(field: string, value: string): Filter {
     return SingleFilter.fromPrimitives({
       field,
       operator: Operator.NOT_CONTAINS,
-      value
-    })
+      value,
+    });
   }
 
-  static greaterThan(field: string, value: string) {
+  static greaterThan(field: string, value: string): Filter {
     return SingleFilter.fromPrimitives({
       field,
       operator: Operator.GT,
-      value
-    })
+      value,
+    });
   }
 
-  static lessThan(field: string, value: string) {
+  static lessThan(field: string, value: string): Filter {
     return SingleFilter.fromPrimitives({
       field,
       operator: Operator.LT,
-      value
-    })
+      value,
+    });
   }
-  
 }

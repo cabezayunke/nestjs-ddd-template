@@ -10,7 +10,10 @@ import { Handler } from '../Handler';
 import { CreateUserCommand } from './CreateUserCommand';
 
 @CommandHandler(CreateUserCommand)
-export class CreateUserCommandHandler extends Handler implements ICommandHandler<CreateUserCommand> {
+export class CreateUserCommandHandler
+  extends Handler
+  implements ICommandHandler<CreateUserCommand>
+{
   private readonly userFinder: UserFinder;
 
   constructor(

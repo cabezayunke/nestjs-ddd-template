@@ -1,14 +1,13 @@
-import { InvalidArgumentError } from "@shared/domain/errors/InvalidArgumentError";
-import { Filter, FilterType } from "./Filter";
+import { InvalidArgumentError } from '@shared/domain/errors/InvalidArgumentError';
+import { Filter, FilterType } from './Filter';
 
 export class MultiFilter {
-  
   readonly filters: Filter[];
   readonly type: FilterType;
 
   private constructor(type: FilterType, ...filters: Filter[]) {
     if (!filters || filters.length < 2) {
-      throw new InvalidArgumentError("You need at least 2 filters");
+      throw new InvalidArgumentError('You need at least 2 filters');
     }
 
     this.type = type;
@@ -26,5 +25,4 @@ export class MultiFilter {
   static and(...filters: Filter[]): Filter {
     return new MultiFilter(FilterType.AND, ...filters);
   }
-
 }

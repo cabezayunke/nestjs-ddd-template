@@ -13,7 +13,7 @@ export class Criteria {
   readonly filter?: Filter;
   readonly order?: Order;
   readonly pagination?: Pagination;
-  
+
   constructor({ filter, order, pagination }: CriteriaParams) {
     this.filter = filter;
     this.order = order;
@@ -31,8 +31,8 @@ export class Criteria {
   public hasPagination(): boolean {
     return !!this.pagination;
   }
-  
-  public isEmpty() {
+
+  public isEmpty(): boolean {
     return !this.filter && !this.order && !this.pagination;
   }
 
@@ -42,37 +42,37 @@ export class Criteria {
 
   static equal(field: string, value: string): Criteria {
     return new Criteria({
-      filter: SingleFilter.equal(field, value)
-    })
+      filter: SingleFilter.equal(field, value),
+    });
   }
 
   static notEqual(field: string, value: string): Criteria {
     return new Criteria({
-      filter: SingleFilter.notEqual(field, value)
-    })
+      filter: SingleFilter.notEqual(field, value),
+    });
   }
 
   static contains(field: string, value: string): Criteria {
     return new Criteria({
-      filter: SingleFilter.contains(field, value)
-    })
+      filter: SingleFilter.contains(field, value),
+    });
   }
 
   static notContains(field: string, value: string): Criteria {
     return new Criteria({
-      filter: SingleFilter.notContains(field, value)
-    })
+      filter: SingleFilter.notContains(field, value),
+    });
   }
 
   static in(field: string, values: string[]): Criteria {
     return new Criteria({
-      filter: SingleMultiValueFilter.in(field, values)
-    })
+      filter: SingleMultiValueFilter.in(field, values),
+    });
   }
 
   static notIn(field: string, values: string[]): Criteria {
     return new Criteria({
-      filter: SingleMultiValueFilter.notIn(field, values)
-    })
+      filter: SingleMultiValueFilter.notIn(field, values),
+    });
   }
 }

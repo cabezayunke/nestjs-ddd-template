@@ -1,7 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
 export class GetUsersParams {
-
   @ApiProperty({ description: 'Pagination limit' })
   readonly limit?: number;
 

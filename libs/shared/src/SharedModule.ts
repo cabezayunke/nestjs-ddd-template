@@ -46,7 +46,7 @@ import { RequestContextMiddleware } from './infrastructure/server/RequestContext
     PrettyWinstonLogger,
     JsonWinstonLogger,
     RequestContextMiddleware,
-    InMemoryQueryExecutor
+    InMemoryQueryExecutor,
   ],
   exports: [
     Logger,
@@ -55,7 +55,7 @@ import { RequestContextMiddleware } from './infrastructure/server/RequestContext
     DomainEventPublisher,
     InMemoryAsyncDomainEventPublisher,
     RequestContextMiddleware,
-    InMemoryQueryExecutor
+    InMemoryQueryExecutor,
   ],
 })
 export class SharedModule {}

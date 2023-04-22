@@ -1,26 +1,30 @@
-import { Criteria } from "@shared/domain/criteria/Criteria";
-import { Operator } from "@shared/domain/criteria/filters/FilterOperator";
-import { SingleFilter } from "@shared/domain/criteria/filters/SingleFilter";
-import { Order } from "@shared/domain/criteria/order/Order";
-import { Pagination } from "@shared/domain/criteria/pagination/Pagination";
+import { Criteria } from '@shared/domain/criteria/Criteria';
+import { Operator } from '@shared/domain/criteria/filters/FilterOperator';
+import { SingleFilter } from '@shared/domain/criteria/filters/SingleFilter';
+import { Order } from '@shared/domain/criteria/order/Order';
+import { Pagination } from '@shared/domain/criteria/pagination/Pagination';
 
 describe('Criteria', () => {
-  const filter = SingleFilter.fromPrimitives({ field: 'username', operator: Operator.EQUAL, value: 'yunke' });
+  const filter = SingleFilter.fromPrimitives({
+    field: 'username',
+    operator: Operator.EQUAL,
+    value: 'yunke',
+  });
 
   test('should create valid criteria object with filter', () => {
     // arrange
-    
+
     // act
     const criteria = new Criteria({ filter });
 
     // assert
     expect(criteria.filter).toStrictEqual(filter);
   });
-  
+
   test('should create valid criteria object with filter and order', () => {
     // arrange
-    const order = Order.asc("id");
-    
+    const order = Order.asc('id');
+
     // act
     const criteria = new Criteria({ filter, order });
 
@@ -41,7 +45,7 @@ describe('Criteria', () => {
 
   test('should create valid full criteria object', () => {
     // arrange
-    const order = Order.asc("id");
+    const order = Order.asc('id');
     const pagination = Pagination.default();
 
     // act
@@ -52,5 +56,4 @@ describe('Criteria', () => {
     expect(criteria.hasOrder()).toBeTruthy();
     expect(criteria.hasPagination()).toBeTruthy();
   });
-
 });

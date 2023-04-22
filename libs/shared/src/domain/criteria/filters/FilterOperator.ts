@@ -1,5 +1,5 @@
-import { InvalidArgumentError } from "@shared/domain/errors/InvalidArgumentError";
-import { EnumValueObject } from "@shared/domain/value-object/primitives/EnumValueObject";
+import { InvalidArgumentError } from '@shared/domain/errors/InvalidArgumentError';
+import { EnumValueObject } from '@shared/domain/value-object/primitives/EnumValueObject';
 
 export enum Operator {
   EQUAL = '=',
@@ -9,7 +9,7 @@ export enum Operator {
   CONTAINS = 'CONTAINS',
   NOT_CONTAINS = 'NOT_CONTAINS',
   IN = 'IN',
-  NOT_IN = 'NOT_IN'
+  NOT_IN = 'NOT_IN',
 }
 
 export class FilterOperator extends EnumValueObject<Operator> {
@@ -48,32 +48,32 @@ export class FilterOperator extends EnumValueObject<Operator> {
     throw new InvalidArgumentError(`The filter operator ${value} is invalid`);
   }
 
-  static equal() {
+  static equal(): FilterOperator {
     return this.fromValue(Operator.EQUAL);
   }
 
-  isEqual() {
+  isEqual(): boolean {
     return this.value === Operator.EQUAL;
   }
-  isNotEqual() {
+  isNotEqual(): boolean {
     return this.value === Operator.NOT_EQUAL;
   }
-  isContains() {
+  isContains(): boolean {
     return this.value === Operator.CONTAINS;
   }
-  isNotContains() {
+  isNotContains(): boolean {
     return this.value === Operator.NOT_CONTAINS;
   }
-  isGreaterThan() {
+  isGreaterThan(): boolean {
     return this.value === Operator.GT;
   }
-  isLessThan() {
+  isLessThan(): boolean {
     return this.value === Operator.LT;
   }
-  isIn() {
+  isIn(): boolean {
     return this.value === Operator.IN;
   }
-  isNotIn() {
+  isNotIn(): boolean {
     return this.value === Operator.NOT_IN;
   }
 }

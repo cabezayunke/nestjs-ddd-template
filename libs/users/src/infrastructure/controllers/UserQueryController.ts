@@ -35,7 +35,9 @@ export class UserQueryController {
 
   @Get()
   @ApiOkResponse({ description: 'Paginated users' })
-  async getUsers(@Param() { limit, offset, orderBy, orderType }: GetUsersParams): Promise<UserOutput[]> {
+  async getUsers(
+    @Param() { limit, offset, orderBy, orderType }: GetUsersParams,
+  ): Promise<UserOutput[]> {
     return this.queryBus.execute(new GetUsersQuery(limit, offset, orderBy, orderType));
   }
 }

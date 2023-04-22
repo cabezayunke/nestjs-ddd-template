@@ -15,7 +15,10 @@ export class Order {
       return Order.default();
     }
 
-    return new Order(new OrderBy(orderBy), OrderType.fromValue(orderType || OrderTypes.ASC));
+    return new Order(
+      new OrderBy(orderBy),
+      OrderType.fromValue(orderType || OrderTypes.ASC),
+    );
   }
 
   static desc(orderBy: string): Order {
@@ -27,6 +30,6 @@ export class Order {
   }
 
   static default(): Order {
-    return Order.desc("id");
+    return Order.desc('id');
   }
 }

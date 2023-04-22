@@ -1,4 +1,3 @@
-
 export interface FilterPrimitives {
   field: string;
   operator: string;
@@ -10,4 +9,3 @@ export interface FilterMultiValuePrimitives {
   operator: string;
   values: string[];
 }
-
