@@ -2,7 +2,7 @@ import { MongooseUserRepository } from '@context/users/infrastructure/repository
 import {
   connectMongooseTestDb,
   disconnectMongooseTestDb,
-} from '../../../shared/test/setup/setupMongooseTestDb';
+} from '../../../../shared/test/setup/setupMongooseTestDb';
 import { runUserRepositoryTests } from './UserRepositoryTest';
 
 describe('MongooseUserRepositoryTest', () => {
