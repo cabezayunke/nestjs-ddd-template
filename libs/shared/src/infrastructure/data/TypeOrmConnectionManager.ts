@@ -12,7 +12,6 @@ export interface TypeOrmParams {
     user?: string;
     password?: string;    
     debug?: boolean;
-    sync?: boolean;
 }
 export class TypeOrmConnectionManager implements ConnectionManager<DataSource> {
 
@@ -33,14 +32,10 @@ export class TypeOrmConnectionManager implements ConnectionManager<DataSource> {
           password: this.config.password,
           database: this.config.database,
           entities: this.config.models,
-          synchronize: !!this.config.sync,
           logging: !!this.config.debug,
           logger: 'advanced-console'
       })
       
-      // to initialize initial connection with the database, register all entities
-      // and "synchronize" database schema, call "initialize()" method of a newly created database
-      // once in your application bootstrap
       await this.dataSource.initialize();
     }
 

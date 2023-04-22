@@ -6,5 +6,5 @@
     "outDir": "../../dist/apps/core-api",
   },
   "include": ["src/**/*", "src/*"],
-  "exclude": ["node_modules", "dist", "test", "**/*spec.ts", "**/*test.ts"]
+  "exclude": ["node_modules", "dist", "test", "**/*spec.ts", "**/*test.ts", "migrations", "migrations.ts"]
 }

@@ -21,7 +21,7 @@ services:
     volumes:
       - redis-volume:/data
 
- postgresdb:
+  postgresdb:
     image: postgres:14.1-alpine
     restart: always
     environment:
@@ -32,28 +32,25 @@ services:
     volumes: 
       - postgres-volume:/var/lib/postgresql/data
 
- cockroachdb:
+  cockroachdb:
    image: cockroachdb/cockroach:v22.2.8
    ports:
      - "26257:26257"
      - "8080:8080"
    command: start-single-node --insecure --logtostderr
-  #  entrypoint: ./cockroach sql -e 'CREATE DATABASE IF NTO EXISTS test' --insecure
    volumes:
      - cockroach-volume:/cockroach/cockroach-data
 
- mongodb:
+  mongodb:
     image: mongo:5.0
     ports:
       - 27017:27017
     volumes:
       - mongodb-volume:/data/db
-    # environment:
-      # - MONGO_INITDB_ROOT_USERNAME=root
-      # - MONGO_INITDB_ROOT_PASSWORD=rootpass
+
 
 volumes:
   redis-volume:
   cockroach-volume:
   mongodb-volume:
-  postgres-volume:  
+  postgres-volume:
