@@ -10,7 +10,13 @@ export class Order {
     this.orderType = orderType;
   }
 
-  static fromValues(orderBy?: string, orderType?: string): Order {
+  static fromValues({
+    orderBy,
+    orderType,
+  }: {
+    orderBy?: string;
+    orderType?: string;
+  }): Order {
     if (!orderBy) {
       return Order.default();
     }

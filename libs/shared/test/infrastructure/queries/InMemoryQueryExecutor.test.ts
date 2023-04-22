@@ -90,23 +90,31 @@ describe('InMemoryQueryExecutor', () => {
   describe('Pagination', () => {
     test.each([
       {
-        criteria: new Criteria({ pagination: Pagination.fromValues(2, 0) }),
+        criteria: new Criteria({
+          pagination: Pagination.fromValues({ limit: 2, offset: 0 }),
+        }),
         expectedResult: [item1, item2],
       },
       {
-        criteria: new Criteria({ pagination: Pagination.fromValues(undefined, 0) }),
+        criteria: new Criteria({ pagination: Pagination.fromValues({ offset: 0 }) }),
         expectedResult: [item1, item2, item3],
       },
       {
-        criteria: new Criteria({ pagination: Pagination.fromValues(1, 0) }),
+        criteria: new Criteria({
+          pagination: Pagination.fromValues({ limit: 1, offset: 0 }),
+        }),
         expectedResult: [item1],
       },
       {
-        criteria: new Criteria({ pagination: Pagination.fromValues(2, 1) }),
+        criteria: new Criteria({
+          pagination: Pagination.fromValues({ limit: 2, offset: 1 }),
+        }),
         expectedResult: [item2, item3],
       },
       {
-        criteria: new Criteria({ pagination: Pagination.fromValues(1, 2) }),
+        criteria: new Criteria({
+          pagination: Pagination.fromValues({ limit: 1, offset: 2 }),
+        }),
         expectedResult: [item3],
       },
     ])(

@@ -26,9 +26,10 @@ export class GetUsersQueryHandler
       query,
       ...this.getRequestContextData(),
     });
+    const { limit, offset, orderBy, orderType } = query;
     const criteria = new Criteria({
-      pagination: Pagination.fromValues(query.limit, query.offset),
-      order: Order.fromValues(query.orderBy, query.orderType),
+      pagination: Pagination.fromValues({ limit, offset }),
+      order: Order.fromValues({ orderBy, orderType }),
     });
     return this.queryExecutor.execute<GetUsersQueryResponse>(criteria);
   }

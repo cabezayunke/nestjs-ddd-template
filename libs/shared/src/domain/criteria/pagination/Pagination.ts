@@ -10,7 +10,7 @@ export class Pagination {
     this.offset = offset;
   }
 
-  static fromValues(limit?: number, offset?: number): Pagination {
+  static fromValues({ limit, offset }: { limit?: number; offset?: number }): Pagination {
     if (!limit) {
       return Pagination.default();
     }
@@ -19,6 +19,6 @@ export class Pagination {
   }
 
   static default(): Pagination {
-    return Pagination.fromValues(100, 0);
+    return Pagination.fromValues({ limit: 100, offset: 0 });
   }
 }

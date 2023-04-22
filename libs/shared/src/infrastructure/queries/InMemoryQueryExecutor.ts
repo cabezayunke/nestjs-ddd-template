@@ -1,13 +1,14 @@
+import { Filter, FilterType } from '@shared/domain/criteria/filters/Filter';
+import { Operator } from '@shared/domain/criteria/filters/FilterOperator';
+import { MultiFilter } from '@shared/domain/criteria/filters/MultiFilter';
 import { SingleMultiValueFilter } from '@shared/domain/criteria/filters/SingleMultiValueFilter';
 import { Order } from '@shared/domain/criteria/order/Order';
 import { OrderTypes } from '@shared/domain/criteria/order/OrderType';
 import { Pagination } from '@shared/domain/criteria/pagination/Pagination';
 import { Criteria } from '../../domain/criteria/Criteria';
-import { Filter, FilterType } from '../../domain/criteria/filters/Filter';
-import { Operator } from '../../domain/criteria/filters/FilterOperator';
-import { MultiFilter } from '../../domain/criteria/filters/MultiFilter';
 import { SingleFilter } from '../../domain/criteria/filters/SingleFilter';
 import { QueryExecutor } from '../../domain/queries/QueryExecutor';
+import { sortAsc, sortDesc } from './InMemoryPaginationUtils';
 
 export class InMemoryQueryExecutor implements QueryExecutor {
   constructor(private readonly data: Record<string, any>[] = []) {}
@@ -141,9 +142,9 @@ export class InMemoryQueryExecutor implements QueryExecutor {
     if (order) {
       const orderField = order?.orderBy.value;
       if (orderField && order?.orderType.value === OrderTypes.ASC) {
-        return data.sort((a: any, b: any) => (a[orderField] > b[orderField] ? 1 : -1));
+        return data.sort(sortAsc(orderField));
       } else if (order?.orderType.value === OrderTypes.DESC) {
-        return data.sort((a: any, b: any) => (a[orderField] > b[orderField] ? -1 : 1));
+        return data.sort(sortDesc(orderField));
       }
     }
     return data;
@@ -155,7 +156,7 @@ export class InMemoryQueryExecutor implements QueryExecutor {
       : this.data;
 
     return this.handleOrder(
-      criteria.order as Order,
+      criteria.order as unknown as Order,
       this.handlePagination(criteria.pagination as Pagination, filteredData),
     ) as Response[];
   }

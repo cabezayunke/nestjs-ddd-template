@@ -1,8 +1,8 @@
 import { User } from '@context/users/domain/User';
 import { UserRepository } from '@context/users/domain/UserRepository';
 import { Criteria } from '@shared/domain/criteria/Criteria';
-import { RandomObjectMother } from '../../../shared/test/RandomObjectMother';
-import { UserObjectMother } from '../UserObjectMother';
+import { RandomObjectMother } from '../../../../shared/test/RandomObjectMother';
+import { UserObjectMother } from '../../UserObjectMother';
 
 export const runUserRepositoryTests = (
   createUserRepository: () => UserRepository,
