@@ -15,10 +15,14 @@ module.exports = {
     "<rootDir>/apps/",
     "<rootDir>/libs/"
   ],
-  // "testRegex": ".*\\.spec\\.ts$",
-  // "collectCoverageFrom": [
-  //   "**/*.(t|j)s"
-  // ],
-  // "coverageDirectory": "./coverage",
-  setupFiles: ["<rootDir>/jest.env.js"]
+  setupFiles: ["<rootDir>/jest.env.js"],
+  coveragePathIgnorePatterns: [
+    "node_modules",
+    "test-config",
+    "interfaces",
+    "jestGlobalMocks.ts",
+    "Module.ts",
+    "main.ts",
+    "Test.ts"
+],
 };
