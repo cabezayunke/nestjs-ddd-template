@@ -1,6 +1,6 @@
 import {
-    RequestContext,
-    RequestContextData,
+  RequestContext,
+  RequestContextData,
 } from '@utils/server/infrastructure/RequestContext';
 
 export abstract class Handler {
