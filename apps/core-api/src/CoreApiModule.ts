@@ -1,8 +1,10 @@
 import { UsersModule } from '@context/users/UsersModule';
 import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { RequestContextMiddleware } from '@shared/infrastructure/server/RequestContextMiddleware';
 import { SharedModule } from '@shared/SharedModule';
+import { LoggerModule } from '@utils/logger/LoggerModule';
+import { ServerModule } from '@utils/server/ServerModule';
+import { RequestContextMiddleware } from '@utils/server/infrastructure/RequestContextMiddleware';
 import { loadCoreApiConfig } from './config';
 
 @Module({
@@ -12,8 +14,10 @@ import { loadCoreApiConfig } from './config';
       envFilePath: `${process.cwd()}/.env.${process.env.NODE_ENV}`,
       load: [loadCoreApiConfig],
     }),
-    UsersModule,
+    LoggerModule,
+    ServerModule,
     SharedModule,
+    UsersModule,
   ],
 })
 export class CoreApiModule {

@@ -1,5 +1,4 @@
 import { HttpStatus } from '@nestjs/common';
-import { DomainError } from '../../domain/errors/DomainError';
 
 export class ApiError extends Error {
   public statusCode: number;
@@ -38,9 +37,5 @@ export class ApiError extends Error {
 
   static internal(message: string, extra?: Record<string, unknown>): ApiError {
     return new ApiError(message, HttpStatus.INTERNAL_SERVER_ERROR, extra);
-  }
-
-  static fromDomainError(error: DomainError): ApiError {
-    return new ApiError(error.message, HttpStatus.BAD_REQUEST);
   }
 }

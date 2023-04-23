@@ -45,6 +45,24 @@
       "compilerOptions": {
         "tsConfigPath": "libs/users/tsconfig.lib.json"
       }
+    },
+    "logger": {
+      "type": "library",
+      "root": "libs/logger",
+      "entryFile": "LoggerModule",
+      "sourceRoot": "libs/logger/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/logger/tsconfig.lib.json"
+      }
+    },
+    "server": {
+      "type": "library",
+      "root": "libs/server",
+      "entryFile": "ServerModule",
+      "sourceRoot": "libs/server/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/server/tsconfig.lib.json"
+      }
     }
   }
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { createLogger, format, Logger as WinstonLoggerType, transports } from 'winston';
-import { Logger } from '../../domain/Logger';
+import { Logger as WinstonLoggerType, createLogger, format, transports } from 'winston';
+import { Logger } from '../domain/Logger';
 
 @Injectable()
 export class PrettyWinstonLogger implements Logger {

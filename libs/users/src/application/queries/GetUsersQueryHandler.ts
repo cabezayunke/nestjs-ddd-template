@@ -1,10 +1,10 @@
 import { Inject } from '@nestjs/common';
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
-import { Logger } from '@shared/domain/Logger';
 import { Criteria } from '@shared/domain/criteria/Criteria';
 import { Order } from '@shared/domain/criteria/order/Order';
 import { Pagination } from '@shared/domain/criteria/pagination/Pagination';
 import { QueryExecutor } from '@shared/domain/queries/QueryExecutor';
+import { Logger } from '@utils/logger/domain/Logger';
 import { Handler } from '../Handler';
 import { GetUsersQuery } from './GetUsersQuery';
 import { GetUsersQueryResponse } from './GetUsersQueryResponse';

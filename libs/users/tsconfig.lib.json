@@ -9,6 +9,12 @@
   "references": [
     {
       "path": "../../libs/shared"
+    },
+    {
+      "path": "../../libs/logger"
+    },
+    {
+      "path": "../../libs/server"
     }
   ],
   "paths": {
@@ -17,6 +23,18 @@
     ],
     "@shared/*": [
       "../../libs/shared/src/*"
+    ],
+    "@utils/logger": [
+      "../../libs/logger/src"
+    ],
+    "@utils/logger/*": [
+      "../../libs/logger/src/*"
+    ],
+    "@utils/server": [
+      "../../libs/server/src"
+    ],
+    "@utils/server/*": [
+      "../../libs/server/src/*"
     ],
   }
 

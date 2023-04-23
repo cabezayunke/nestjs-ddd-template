@@ -4,6 +4,7 @@ export const enum LoggerLevel {
   WARN = 'warn',
   INFO = 'info',
 }
+
 export abstract class Logger {
   abstract log(message: string, extra?: unknown): void;
   abstract debug(message: string, extra?: unknown): void;

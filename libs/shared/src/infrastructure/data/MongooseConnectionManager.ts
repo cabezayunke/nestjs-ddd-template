@@ -2,7 +2,7 @@
  
 
 import mongoose, { Mongoose } from "mongoose";
-import { Logger } from "../../domain/Logger";
+import { Logger } from "../../../../logger/src/domain/Logger";
 import { ConnectionManager } from "../../domain/data/ConnectionManager";
 
 interface MongoDebugConfig {

@@ -43,7 +43,19 @@
       ],
       "@context/users/*": [
         "libs/users/src/*"
-      ]
+      ],
+      "@utils/logger": [
+        "libs/logger/src"
+      ],
+      "@utils/logger/*": [
+        "libs/logger/src/*"
+      ],
+      "@utils/server": [
+        "libs/server/src"
+      ],
+      "@utils/server/*": [
+        "libs/server/src/*"
+      ],
     },  
   },
   "exclude": ["jest.*", "tsconfig.*"]

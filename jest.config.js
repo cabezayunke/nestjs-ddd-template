@@ -7,7 +7,9 @@ module.exports = {
   testEnvironment: 'node',
   moduleNameMapper: {
     "^@shared(|/.*)$": "<rootDir>/libs/shared/src/$1",
-    "^@context/users(|/.*)$": "<rootDir>/libs/users/src/$1"
+    "^@context/users(|/.*)$": "<rootDir>/libs/users/src/$1",
+    "^@utils/logger(|/.*)$": "<rootDir>/libs/logger/src/$1",
+    "^@utils/server(|/.*)$": "<rootDir>/libs/server/src/$1",
   },
   rootDir: ".",
   testEnvironment: "node",

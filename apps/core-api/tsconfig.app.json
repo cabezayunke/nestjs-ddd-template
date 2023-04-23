@@ -6,5 +6,45 @@
     "outDir": "../../dist/apps/core-api",
   },
   "include": ["src/**/*", "src/*"],
-  "exclude": ["node_modules", "dist", "test", "**/*spec.ts", "**/*test.ts", "migrations", "migrations.ts"]
+  "exclude": ["node_modules", "dist", "test", "**/*spec.ts", "**/*test.ts", "migrations", "migrations.ts"],
+  "references": [
+    {
+      "path": "../../libs/shared"
+    },
+    {
+      "path": "../../libs/users"
+    },
+    {
+      "path": "../../libs/logger"
+    },
+    {
+      "path": "../../libs/server"
+    }
+  ],
+  "paths": {
+    "@utils/logger": [
+      "../../libs/logger/src"
+    ],
+    "@utils/logger/*": [
+      "../../libs/logger/src/*"
+    ],
+    "@utils/server": [
+      "../../libs/server/src"
+    ],
+    "@utils/server/*": [
+      "../../libs/server/src/*"
+    ],
+    "@context/users": [
+      "../../libs/users/src"
+    ],
+    "@context/users/*": [
+      "../../libs/users/src/*"
+    ],
+    "@shared": [
+      "../../libs/shared/src"
+    ],
+    "@shared/*": [
+      "../../libs/shared/src/*"
+    ],
+  }
 }

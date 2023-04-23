@@ -3,9 +3,9 @@ import { UserFinder } from '@context/users/domain/UserFinder';
 import { UserRepository } from '@context/users/domain/UserRepository';
 import { UserEmail } from '@context/users/domain/value-object/UserEmail';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { Logger } from '@shared/domain/Logger';
 import { DomainEvent } from '@shared/domain/events/DomainEvent';
 import { DomainEventPublisher } from '@shared/domain/events/DomainEventPublisher';
+import { Logger } from '@utils/logger/domain/Logger';
 import { Handler } from '../Handler';
 import { CreateUserCommand } from './CreateUserCommand';
 

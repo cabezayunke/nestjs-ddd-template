@@ -1,4 +1,5 @@
 import { EventEmitter2 } from '@nestjs/event-emitter';
+import { NoOpLogger } from '@utils/logger/infrastructure/NoOpLogger';
 import { InMemoryAsyncDomainEventPublisher } from '../../src/infrastructure/events/InMemoryAsyncDomainEventPublisher';
 import { DummyEvent } from '../DummyEvent';
 
@@ -14,7 +15,7 @@ describe('InMemoryAsyncEventBus', () => {
       done();
     });
 
-    const eventBus = new InMemoryAsyncDomainEventPublisher(emitter, console);
+    const eventBus = new InMemoryAsyncDomainEventPublisher(emitter, new NoOpLogger());
 
     // act
     eventBus.publish([event]);

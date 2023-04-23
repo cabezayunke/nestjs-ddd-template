@@ -1,8 +1,9 @@
-import { ConfigParser } from '@shared/infrastructure/server/ConfigParser';
+import { ConfigParser } from '@utils/server/infrastructure/ConfigParser';
 
 export interface CoreApiConfig {
   serverPort: number;
   isLocal: boolean;
+  isTest: boolean;
   mongoUri: string;
 }
 
@@ -12,6 +13,7 @@ export const loadCoreApiConfig = (): CoreApiConfig => {
   return {
     serverPort: ConfigParser.getOptionalNumberEnvVar('SERVER_PORT', 3000),
     isLocal: currentEnv === 'local',
+    isTest: currentEnv === 'test',
     mongoUri: ConfigParser.getMandatoryStringEnvVar('MONGO_URI'),
   };
 };

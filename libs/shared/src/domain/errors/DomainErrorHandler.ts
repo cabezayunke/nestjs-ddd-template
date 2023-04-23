@@ -3,9 +3,9 @@ import { DomainError } from '@shared/domain/errors/DomainError';
 import {
   RequestContext,
   RequestContextData,
-} from '@shared/infrastructure/server/RequestContext';
+} from '@utils/server/infrastructure/RequestContext';
 import { Request, Response } from 'express';
-import { Logger } from '../Logger';
+import { Logger } from '../../../../logger/src/domain/Logger';
 
 @Catch()
 export class DomainErrorHandler implements ExceptionFilter {

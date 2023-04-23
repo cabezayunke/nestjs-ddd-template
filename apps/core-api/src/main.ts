@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { SchemaObject } from '@nestjs/swagger/dist/interfaces/open-api-spec.interface';
-import { Logger } from '@shared/domain/Logger';
+import { Logger } from '@utils/logger/domain/Logger';
 import { MetadataStorage, getFromContainer } from 'class-validator';
 import { validationMetadatasToSchemas } from 'class-validator-jsonschema';
 import 'reflect-metadata';

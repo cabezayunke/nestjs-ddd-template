@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { SharedModule } from '@shared/SharedModule';
+import { LoggerModule } from '@utils/logger/LoggerModule';
 import { CreateUserCommandHandler } from './application/commands/CreateUserCommandHandler';
 import { UserSingleEventSubscriber } from './application/events/UserSingleEventSubscriber';
 import { GetUserByEmailQueryHandler } from './application/queries/GetUserByEmailQueryHandler';
@@ -12,7 +13,7 @@ import { InMemoryUserQueryExecutor } from './infrastructure/queries/InMemoryUser
 import { InMemoryUserRepository } from './infrastructure/repository/InMemoryUserRepository';
 
 @Module({
-  imports: [CqrsModule, SharedModule],
+  imports: [LoggerModule, CqrsModule, SharedModule],
   providers: [
     // commands
     CreateUserCommandHandler,

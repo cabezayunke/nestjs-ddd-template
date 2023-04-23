@@ -1,9 +1,9 @@
 import { UserNotFound } from '@context/users/domain/error/UserNotFound';
 import { Inject } from '@nestjs/common';
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
-import { Logger } from '@shared/domain/Logger';
 import { Criteria } from '@shared/domain/criteria/Criteria';
 import { QueryExecutor } from '@shared/domain/queries/QueryExecutor';
+import { Logger } from '@utils/logger/domain/Logger';
 import { Handler } from '../Handler';
 import { GetUserByEmailQuery } from './GetUserByEmailQuery';
 import { GetUserByEmailQueryResponse } from './GetUserByEmailQueryResponse';
