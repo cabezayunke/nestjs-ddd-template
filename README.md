@@ -1,9 +1,9 @@
 # nestjs-ddd-template
 
-NestJS DDD template project. 
-Separate `apps/` and `libs/` folders.
- `libs/` will contain different contexts of our domain plus a `shared/` one with DDD related code (value objects, repository, queries, etc)
- `libs/` will also contain independent modules such as `logger` or `server` utils (api error, request context, that will help setting up a server app).
+NestJS DDD template project. Some things to consider:
+* Separate `apps/` and `libs/` folders.
+* `libs/` will contain different contexts of our domain plus a `shared/` one with DDD related code (value objects, repository, queries, etc)
+* `libs/` will also contain independent modules such as * `logger` or `server` utils (api error, request context, that will help setting up a server app).
 
 # Apps
 ## Core API
@@ -17,7 +17,6 @@ Controller > QueryBus > QueryHandler > QueryExecutor
 In the future, in order to reuse code or make multiple queries if necessary in a single request, we could introduce an application service/use case:
 ```
 Controller > QueryBus > QueryHandler > UseCase > QueryExecutor
-
 ```
 
 In a similar way, we will have write reqiests:
@@ -44,8 +43,9 @@ TODO:
 
 # Libs
 
-Contexts: users, shared
-Utils: logger, server
+* **Contexts**: users, shared
+* **Utils**: logger, server
+
 ### Context module example
 ```ts
 @Module({
@@ -142,12 +142,12 @@ export class UsersModule {}
 ### Config
 
 We don't make use of NestJS capabilities in this case, since IMO it makes the setup for tests more tedious. 
-We have a simple `ConnectionManager` with implementation for each db in use. This can be call when initialing any app, api or cli, as well as test.
+We have a simple `ConnectionManager` with an implementation for each db in use. This can be called when initialing any app, api or cli, as well as test.
 
 ### Tests
 
 Common tests for `Repostiory`s and `QueryExecutor`s.
-Tests are reused for the different implementations, since they should behave exactly the same. Extending theprevious point, the only difference will be the setup of those tests.
+Tests are reused for the different implementations, since they should behave exactly the same. The only difference will be the setup of those tests.
 Example:
 ```ts
 // in-memory
@@ -199,6 +199,9 @@ MIGRATIONS_ENV=test npm run typeorm -- migration:run -d ./apps/core-api/migratio
 
 # this will read `.env.test` and run the migrations with that config
 ```
+
+TODO:
+- migrations for mongo
 
 # Local dev and testing
 
