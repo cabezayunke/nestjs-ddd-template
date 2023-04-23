@@ -3,7 +3,7 @@ import {
   connectTypeORMTestDb,
   disconnectTypeORMTestDb,
   getUserTypeORMRepository,
-} from '../../../shared/test/setup/setupTypeORMTestDb';
+} from '../../../../shared/test/setup/setupTypeORMTestDb';
 import { runUserRepositoryTests } from './UserRepositoryTest';
 
 describe('PostgresUserRepository', () => {

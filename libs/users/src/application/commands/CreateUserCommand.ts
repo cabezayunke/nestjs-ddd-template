@@ -1,6 +1,4 @@
-import { Command } from '@shared/domain/commands/Command';
-
-export class CreateUserCommand implements Command {
+export class CreateUserCommand {
   constructor(
     public readonly email: string,
     public readonly id?: string,

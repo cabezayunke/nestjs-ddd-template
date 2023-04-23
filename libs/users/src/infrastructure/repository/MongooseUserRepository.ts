@@ -4,8 +4,8 @@ import { UserId } from '@context/users/domain/value-object/UserId';
 import { Criteria } from '@shared/domain/criteria/Criteria';
 import { FilterType } from '@shared/domain/criteria/filters/Filter';
 import { SingleFilter } from '@shared/domain/criteria/filters/SingleFilter';
-import { UserModel } from './MongooseUserModel';
 import { MongooseUserRepositoryMapper } from './MongooseUserRepositoryMapper';
+import { UserModel } from './UserModel';
 
 export class MongooseUserRepository implements UserRepository {
   async find(criteria: Criteria): Promise<User[]> {

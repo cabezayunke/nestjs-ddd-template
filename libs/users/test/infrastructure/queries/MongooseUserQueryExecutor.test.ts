@@ -1,8 +1,19 @@
+import { User } from '@context/users/domain/User';
+import { UserEmail } from '@context/users/domain/value-object/UserEmail';
+import { UserId } from '@context/users/domain/value-object/UserId';
+import { UserName } from '@context/users/domain/value-object/UserName';
+import { MongooseUserRepository } from '@context/users/infrastructure/repository/MongooseUserRepository';
+import {
+  UserDocument,
+  UserModel,
+} from '@context/users/infrastructure/repository/UserModel';
+import { MongooseQueryExecutor } from '@shared/infrastructure/queries/MongooseQueryExecutor';
 import {
   connectMongooseTestDb,
   disconnectMongooseTestDb,
-} from 'libs/shared/test/setup/setupMongooseTestDb';
+} from '../../../../shared/test/setup/setupMongooseTestDb';
 import { UserObjectMother } from '../../UserObjectMother';
+import { runUserQueryExecutorTests } from './UserQueryExecutorTest';
 
 describe('MongooseUserQueryExecutor', () => {
   const data = [
@@ -11,43 +22,30 @@ describe('MongooseUserQueryExecutor', () => {
     UserObjectMother.fullUserInput(),
     UserObjectMother.fullUserInput(),
   ];
+  const repository = new MongooseUserRepository();
 
   beforeAll(async () => {
     await connectMongooseTestDb();
+    await UserModel.deleteMany({});
+    await Promise.all(
+      data.map(u =>
+        repository.save(
+          new User(
+            UserId.of(u.id as string),
+            UserEmail.of(u.email),
+            UserName.of(u.name as string),
+          ),
+        ),
+      ),
+    );
   });
 
   afterAll(async () => {
     await disconnectMongooseTestDb();
   });
 
-  // beforeAll(async () => {
-  //   await connectTypeORMTestDb({
-  //     host: 'localhost',
-  //     port: 26257,
-  //     user: 'root',
-  //     database: 'defaultdb',
-  //   });
-  //   const repository = getUserTypeORMRepository();
-  //   await repository.delete({});
-  //   await Promise.all(
-  //     data.map(u => {
-  //       const entity = new UserEntity();
-  //       entity.id = u.id as string;
-  //       entity.email = u.email;
-  //       entity.name = u.name;
-  //       return repository.save(entity);
-  //     }),
-  //   );
-  // });
-
-  // afterAll(async () => {
-  //   await disconnectTypeORMTestDb();
-  // });
-
-  // runUserQueryExecutorTests(
-  //   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  //   (_: Record<string, any>[]) =>
-  //     new TypeOrmUserQueryExecutor(getUserTypeORMRepository()),
-  //   data,
-  // );
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  runUserQueryExecutorTests((_: Record<string, any>[]) => {
+    return new MongooseQueryExecutor<UserDocument>(UserModel);
+  }, data);
 });

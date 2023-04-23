@@ -2,7 +2,7 @@ import { User } from '@context/users/domain/User';
 import { UserEmail } from '@context/users/domain/value-object/UserEmail';
 import { UserId } from '@context/users/domain/value-object/UserId';
 import { UserName } from '@context/users/domain/value-object/UserName';
-import { UserDocument, UserModel } from './MongooseUserModel';
+import { UserDocument, UserModel } from './UserModel';
 
 export class MongooseUserRepositoryMapper {
   static fromDomain(user: User): UserDocument {

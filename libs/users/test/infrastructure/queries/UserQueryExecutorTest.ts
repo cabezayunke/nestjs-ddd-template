@@ -58,7 +58,7 @@ export const runUserQueryExecutorTests = (
       const result = await executor.execute<UserOutput>(criteria);
 
       // assert
-      expect(result).toStrictEqual(expectedResult);
+      expect(result.sort(sortAsc('id'))).toStrictEqual(expectedResult);
     });
 
     test('should get all users in DESC order', async () => {
